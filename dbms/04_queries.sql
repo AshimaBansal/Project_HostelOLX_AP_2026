@@ -687,3 +687,29 @@ SET status = 'resolved'
 WHERE id = 'f0000000-0000-0000-0000-000000001501';
 
 
+-- ##############################################################################
+-- 9. SAFETY & MODERATION   table in 03_schema.sql; API routes not built yet
+-- ##############################################################################
+
+-- @R35
+-- READ · Moderation queue: pending safety reports with reporter, reported user and listing
+SELECT sr.id, sr.violation_category, sr.report_details, sr.status, sr.created_at,
+       rep.full_name AS reported_by, ru.full_name AS reported_user, l.title AS reported_listing
+FROM safety_reports sr
+JOIN users rep       ON rep.id = sr.reporter_id
+LEFT JOIN users ru   ON ru.id  = sr.reported_user_id
+LEFT JOIN listings l ON l.id   = sr.reported_listing_id
+WHERE sr.status IN ('pending', 'investigating')
+ORDER BY sr.created_at
+LIMIT 50;
+
+-- @W28
+-- WRITE · Report a listing / seller from the listing page
+INSERT INTO safety_reports (reporter_id, reported_user_id, reported_listing_id, violation_category, report_details)
+SELECT 'a0000000-0000-0000-0000-000000001518', l.seller_id, l.id, 'scam_pricing',
+       'Asking price is higher than a new one on Amazon'
+FROM listings l
+WHERE l.id = 'b0000000-0000-0000-0000-000000000001';
+
+-- @END
+ROLLBACK;
