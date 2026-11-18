@@ -142,3 +142,167 @@ SELECT count(*) FILTER (WHERE l.status = 'active')                  AS active_li
 FROM listings l;
 
 
+-- ##############################################################################
+-- 3. LISTINGS                                               (listing.routes.js)
+-- ##############################################################################
+
+-- @R11
+-- READ · Home feed: newest active listings with category, seller, handover spot and cover photo
+-- API: GET /api/listings?sort=newest&page=1 → listing.repository.findAll
+SELECT l.id, l.title, l.price, l.original_purchase_price, l.is_negotiable, l.listing_type, l.item_condition,
+       l.created_at, c.name AS category, c.slug AS category_slug,
+       u.full_name AS seller_name, u.hostel_block AS seller_hostel, u.reputation_score AS seller_rating,
+       hs.spot_name AS handover_spot, img.image_url AS cover_image
+FROM listings l
+JOIN categories c            ON c.id  = l.category_id
+JOIN users u                 ON u.id  = l.seller_id
+LEFT JOIN handover_spots hs  ON hs.id = l.preferred_spot_id
+LEFT JOIN LATERAL (
+    SELECT li.image_url FROM listing_images li
+    WHERE li.listing_id = l.id
+    ORDER BY li.is_cover DESC, li.display_order
+    LIMIT 1
+) img ON TRUE
+WHERE l.status = 'active'
+ORDER BY l.created_at DESC
+LIMIT 20 OFFSET 0;
+
+-- @R12
+-- READ · Browse a category with a price range, cheapest first ("price_asc" sort)
+-- API: GET /api/listings?category=electronics&minPrice=100&maxPrice=1500&sort=price_asc
+SELECT l.id, l.title, l.price, l.item_condition, l.listing_type, l.created_at,
+       u.full_name AS seller_name, u.hostel_block AS seller_hostel
+FROM listings l
+JOIN categories c ON c.id = l.category_id
+JOIN users u      ON u.id = l.seller_id
+WHERE c.slug = 'electronics'
+  AND l.status = 'active'
+  AND l.price BETWEEN 100 AND 1500
+ORDER BY l.price ASC, l.created_at DESC
+LIMIT 20;
+
+-- @R13
+-- READ · Keyword search over title + description (uses the GIN full-text index), best match first
+-- API: GET /api/listings?search=study lamp
+SELECT l.id, l.title, l.price, c.name AS category, u.full_name AS seller_name,
+       ts_rank(to_tsvector('english', l.title || ' ' || l.description),
+               plainto_tsquery('english', 'study lamp')) AS rank
+FROM listings l
+JOIN categories c ON c.id = l.category_id
+JOIN users u      ON u.id = l.seller_id
+WHERE l.status = 'active'
+  AND to_tsvector('english', l.title || ' ' || l.description) @@ plainto_tsquery('english', 'study lamp')
+ORDER BY rank DESC, l.created_at DESC
+LIMIT 20;
+
+-- @R14
+-- READ · Filter by listing type (free giveaways / urgent sales), newest first
+-- API: GET /api/listings?listingType=giveaway
+SELECT l.id, l.title, l.price, l.listing_type, l.created_at, c.name AS category, u.hostel_block AS seller_hostel
+FROM listings l
+JOIN categories c ON c.id = l.category_id
+JOIN users u      ON u.id = l.seller_id
+WHERE l.status = 'active' AND l.listing_type = 'giveaway'
+ORDER BY l.created_at DESC
+LIMIT 20;
+
+-- @R15
+-- READ · Listing detail page: listing + category + seller + preferred spot + "saved by me?" + #saves
+-- API: GET /api/listings/:id → listing.repository.findById + listing.service.presentOne
+SELECT l.id, l.title, l.description, l.price, l.original_purchase_price, l.is_negotiable, l.listing_type,
+       l.item_condition, l.status, l.view_count, l.created_at, l.updated_at,
+       c.name AS category, c.slug AS category_slug,
+       u.id AS seller_id, u.full_name AS seller_name, u.hostel_block AS seller_hostel, u.reputation_score AS seller_rating,
+       hs.spot_name, hs.landmark_description, hs.security_level,
+       EXISTS (SELECT 1 FROM saved_listings s
+               WHERE s.listing_id = l.id AND s.user_id = 'a0000000-0000-0000-0000-000000001518') AS saved_by_me,
+       (SELECT count(*) FROM saved_listings s WHERE s.listing_id = l.id) AS saves
+FROM listings l
+JOIN categories c           ON c.id  = l.category_id
+JOIN users u                ON u.id  = l.seller_id
+LEFT JOIN handover_spots hs ON hs.id = l.preferred_spot_id
+WHERE l.id = 'b0000000-0000-0000-0000-000000000001';
+
+-- @R16
+-- READ · Photo gallery of a listing (cover first)
+-- API: GET /api/listings/:id (images)
+SELECT li.id, li.image_url, li.is_cover, li.display_order
+FROM listing_images li
+JOIN listings l ON l.id = li.listing_id
+WHERE l.id = 'b0000000-0000-0000-0000-000000000001'
+ORDER BY li.is_cover DESC, li.display_order;
+
+-- @R17
+-- READ · "My listings" dashboard: all my listings with saves and pending offers per listing
+-- API: GET /api/listings?sellerId=me → listing.repository.findAll({ sellerId })
+SELECT l.id, l.title, l.price, l.status, l.view_count, l.created_at,
+       count(DISTINCT s.user_id)                                 AS saves,
+       count(DISTINCT o.id) FILTER (WHERE o.status = 'pending')  AS pending_offers
+FROM listings l
+LEFT JOIN saved_listings s ON s.listing_id = l.id
+LEFT JOIN price_offers o   ON o.listing_id = l.id
+WHERE l.seller_id = 'a0000000-0000-0000-0000-000000001518'
+GROUP BY l.id
+ORDER BY l.created_at DESC;
+
+-- @R18
+-- READ · Ownership check before edit / status change / delete (only the seller may change it)
+-- API: listing.service.getOwnedOrFail
+SELECT id, seller_id, status
+FROM listings
+WHERE id = 'b0000000-0000-0000-0000-000000004931'
+  AND seller_id = 'a0000000-0000-0000-0000-000000001518';
+
+-- @W2
+-- WRITE · Post a new listing ("Sell an item" page)
+-- API: POST /api/listings → listing.repository.create
+INSERT INTO listings (seller_id, category_id, preferred_spot_id, title, description, price,
+                      original_purchase_price, is_negotiable, listing_type, item_condition)
+VALUES ('a0000000-0000-0000-0000-000000001518', '11111111-1111-1111-1111-111111111103',
+        '22222222-2222-2222-2222-222222222201', 'Logitech K380 Keyboard',
+        'Bluetooth keyboard, 6 months old, works with laptop and phone', 1200.00, 2500.00,
+        TRUE, 'sale', 'like_new')
+RETURNING id, status, created_at;
+
+-- @W3
+-- WRITE · Upload photos for the new listing (one row per photo)
+-- API: POST /api/listings (images[])
+INSERT INTO listing_images (listing_id, image_url, is_cover, display_order)
+VALUES ('b0000000-0000-0000-0000-000000004931', 'https://cdn.hostelolx.in/l/4931/new-0.jpg', FALSE, 3),
+       ('b0000000-0000-0000-0000-000000004931', 'https://cdn.hostelolx.in/l/4931/new-1.jpg', FALSE, 4);
+
+-- @W4
+-- WRITE · Edit my listing (only if I am the seller)
+-- API: PATCH /api/listings/:id → listing.repository.update
+UPDATE listings
+SET title = 'Study Lamp (barely used) - price dropped', price = 3999.00, is_negotiable = FALSE
+WHERE id = 'b0000000-0000-0000-0000-000000004931'
+  AND seller_id = 'a0000000-0000-0000-0000-000000001518'
+RETURNING id, title, price, updated_at;
+
+-- @W5
+-- WRITE · Change listing status (mark as reserved / sold)
+-- API: PATCH /api/listings/:id/status → listing.service.updateStatus
+UPDATE listings
+SET status = 'sold'
+WHERE id = 'b0000000-0000-0000-0000-000000004931'
+  AND seller_id = 'a0000000-0000-0000-0000-000000001518'
+RETURNING id, status;
+
+-- @W6
+-- WRITE · Delete my listing (soft delete, so offers / chats / handovers keep their history)
+-- API: DELETE /api/listings/:id → listing.service.remove
+UPDATE listings
+SET status = 'delisted'
+WHERE id = 'b0000000-0000-0000-0000-000000007931'
+  AND seller_id = 'a0000000-0000-0000-0000-000000001518'
+  AND status <> 'sold';
+
+-- @W7
+-- WRITE · Count a view when someone opens the listing page
+-- API: GET /api/listings/:id
+UPDATE listings
+SET view_count = view_count + 1
+WHERE id = 'b0000000-0000-0000-0000-000000000001';
+
+
