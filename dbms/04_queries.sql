@@ -398,3 +398,80 @@ WHERE status IN ('pending', 'countered')
   AND expires_at < CURRENT_TIMESTAMP;
 
 
+-- ##############################################################################
+-- 6. HANDOVER TRANSACTIONS & PEER REVIEWS   tables in 03_schema.sql; API routes not built yet
+-- ##############################################################################
+
+-- @R23
+-- READ · My upcoming handovers (as buyer or seller) with item, spot and the other student's phone
+SELECT t.id, t.scheduled_time, t.final_agreed_price, t.payment_method, t.status,
+       l.title AS item, hs.spot_name, hs.landmark_description,
+       CASE WHEN t.buyer_id = 'a0000000-0000-0000-0000-000000001518' THEN 'buying' ELSE 'selling' END AS my_role,
+       other.full_name AS other_party, other.phone_number AS other_phone
+FROM handover_transactions t
+JOIN listings l        ON l.id  = t.listing_id
+JOIN handover_spots hs ON hs.id = t.spot_id
+JOIN users other       ON other.id = CASE WHEN t.buyer_id = 'a0000000-0000-0000-0000-000000001518'
+                                          THEN t.seller_id ELSE t.buyer_id END
+WHERE (t.buyer_id = 'a0000000-0000-0000-0000-000000001518' OR t.seller_id = 'a0000000-0000-0000-0000-000000001518')
+  AND t.status IN ('scheduled', 'arrived')
+ORDER BY t.scheduled_time;
+
+-- @R24
+-- READ · Handover history (completed) and whether I already left a review
+SELECT t.id, t.completed_at, t.final_agreed_price, l.title AS item,
+       EXISTS (SELECT 1 FROM peer_reviews pr
+               WHERE pr.transaction_id = t.id AND pr.reviewer_id = 'a0000000-0000-0000-0000-000000001662') AS reviewed
+FROM handover_transactions t
+JOIN listings l ON l.id = t.listing_id
+WHERE (t.buyer_id = 'a0000000-0000-0000-0000-000000001662' OR t.seller_id = 'a0000000-0000-0000-0000-000000001662')
+  AND t.status = 'completed'
+ORDER BY t.completed_at DESC;
+
+-- @W13
+-- WRITE · Schedule a handover after the seller accepts an offer
+INSERT INTO handover_transactions (listing_id, buyer_id, seller_id, accepted_offer_id, spot_id,
+                                   final_agreed_price, payment_method, verification_pin, scheduled_time)
+SELECT o.listing_id, o.buyer_id, l.seller_id, o.id, '22222222-2222-2222-2222-222222222201',
+       coalesce(o.counter_amount, o.offered_amount), 'upi_on_spot',
+       lpad((floor(random() * 1000000))::int::text, 6, '0'), CURRENT_TIMESTAMP + INTERVAL '1 day'
+FROM price_offers o
+JOIN listings l ON l.id = o.listing_id
+WHERE o.id = 'c0000000-0000-0000-0000-000000008310'
+RETURNING id, verification_pin, scheduled_time;
+
+-- @W14
+-- WRITE · Complete the handover: seller enters the buyer's 6-digit PIN
+UPDATE handover_transactions
+SET status = 'completed', completed_at = CURRENT_TIMESTAMP
+WHERE id = 'd0000000-0000-0000-0000-000000000330'
+  AND verification_pin = '111443'
+  AND status IN ('scheduled', 'arrived')
+RETURNING id, status, completed_at;
+
+-- @W15
+-- WRITE · Mark the listing as sold once its handover is completed
+UPDATE listings l
+SET status = 'sold'
+FROM handover_transactions t
+WHERE t.id = 'd0000000-0000-0000-0000-000000000330'
+  AND l.id = t.listing_id;
+
+-- @W16
+-- WRITE · Buyer reviews the seller after a completed handover (one review per person per handover)
+INSERT INTO peer_reviews (transaction_id, reviewer_id, reviewee_id, rating_stars, review_comment,
+                          punctuality_rating, item_accuracy_rating)
+VALUES ('d0000000-0000-0000-0000-000000000025', 'a0000000-0000-0000-0000-000000001662',
+        'a0000000-0000-0000-0000-000000000179', 5, 'On time and the item was exactly as shown', 5, 5);
+
+-- @W17
+-- WRITE · Recompute the seller's reputation score from all reviews they received
+UPDATE users u
+SET reputation_score = r.avg_stars
+FROM (SELECT reviewee_id, round(avg(rating_stars), 2) AS avg_stars
+      FROM peer_reviews
+      WHERE reviewee_id = 'a0000000-0000-0000-0000-000000000179'
+      GROUP BY reviewee_id) r
+WHERE u.id = r.reviewee_id;
+
+
