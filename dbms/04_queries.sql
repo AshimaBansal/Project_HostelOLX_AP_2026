@@ -92,3 +92,53 @@ WHERE id = 'a0000000-0000-0000-0000-000000001518'
 RETURNING id, full_name, phone_number, hostel_block, room_number, avatar_url, updated_at;
 
 
+-- ##############################################################################
+-- 2. CATEGORIES, HANDOVER SPOTS, HOMEPAGE STATS               (meta.routes.js)
+-- ##############################################################################
+
+-- @R6
+-- READ · Category menu on the homepage, with number of active listings per category
+-- API: GET /api/categories → category.repository.findAll
+SELECT c.id, c.name, c.slug, c.icon_name, c.description, count(l.id) AS active_listings
+FROM categories c
+LEFT JOIN listings l ON l.category_id = c.id AND l.status = 'active'
+WHERE c.is_active
+GROUP BY c.id
+ORDER BY c.display_order, c.name;
+
+-- @R7
+-- READ · Open a category page by its URL slug
+-- API: category.repository.findBySlug
+SELECT id, name, slug, icon_name, description
+FROM categories
+WHERE slug = 'electronics';
+
+-- @R8
+-- READ · Handover spots picker (only active spots, safest first)
+-- API: GET /api/handover-spots → handoverSpot.repository.findAllActive
+SELECT id, spot_name, zone_code, landmark_description, security_level, available_hours, latitude, longitude
+FROM handover_spots
+WHERE is_active
+ORDER BY CASE security_level WHEN 'guard_station' THEN 1 WHEN 'cctv_monitored' THEN 2
+                             WHEN 'high_footfall' THEN 3 ELSE 4 END, spot_name;
+
+-- @R9
+-- READ · One handover spot with the number of handovers scheduled there
+-- API: GET /api/handover-spots/:id → handoverSpot.repository.findById
+SELECT hs.id, hs.spot_name, hs.zone_code, hs.landmark_description, hs.security_level, hs.available_hours,
+       count(t.id) FILTER (WHERE t.status IN ('scheduled', 'arrived')) AS upcoming_handovers
+FROM handover_spots hs
+LEFT JOIN handover_transactions t ON t.spot_id = hs.id
+WHERE hs.id = '22222222-2222-2222-2222-222222222201'
+GROUP BY hs.id;
+
+-- @R10
+-- READ · "Campus Pulse" homepage stats: active listings, free items, items sold, open lost & found
+-- API: GET /api/stats → meta.controller.getStats
+SELECT count(*) FILTER (WHERE l.status = 'active')                  AS active_listings,
+       count(*) FILTER (WHERE l.status = 'active' AND l.price = 0)  AS free_items,
+       count(*) FILTER (WHERE l.status = 'sold')                    AS items_sold,
+       (SELECT count(*) FROM lost_found_reports WHERE status = 'open') AS open_lost_and_found
+FROM listings l;
+
+
