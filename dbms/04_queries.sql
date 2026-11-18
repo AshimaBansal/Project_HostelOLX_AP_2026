@@ -347,3 +347,54 @@ WHERE user_id = 'a0000000-0000-0000-0000-000000001518'
   AND listing_id = 'b0000000-0000-0000-0000-000000001124';
 
 
+-- ##############################################################################
+-- 5. PRICE OFFERS (OLX BARGAINING)   tables in 03_schema.sql; API routes not built yet
+-- ##############################################################################
+
+-- @R21
+-- READ · Offers received on my listing (seller view), highest first, with buyer reputation
+SELECT o.id, o.offered_amount, o.counter_amount, o.buyer_note, o.status, o.expires_at, o.created_at,
+       b.full_name AS buyer_name, b.hostel_block AS buyer_hostel, b.reputation_score AS buyer_rating
+FROM price_offers o
+JOIN listings l ON l.id = o.listing_id
+JOIN users b    ON b.id = o.buyer_id
+WHERE o.listing_id = 'b0000000-0000-0000-0000-000000004931'
+  AND l.seller_id  = 'a0000000-0000-0000-0000-000000001518'
+ORDER BY o.offered_amount DESC, o.created_at;
+
+-- @R22
+-- READ · "My offers" (buyer view): offers I made, with listing and seller
+SELECT o.id, o.offered_amount, o.counter_amount, o.status, o.expires_at,
+       l.id AS listing_id, l.title, l.price AS asking_price, l.status AS listing_status, s.full_name AS seller_name
+FROM price_offers o
+JOIN listings l ON l.id = o.listing_id
+JOIN users s    ON s.id = l.seller_id
+WHERE o.buyer_id = 'a0000000-0000-0000-0000-000000001518'
+ORDER BY o.created_at DESC;
+
+-- @W10
+-- WRITE · Make an offer on a listing (valid for 48 hours)
+INSERT INTO price_offers (listing_id, buyer_id, offered_amount, buyer_note, expires_at)
+VALUES ('b0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000001518', 400.00,
+        'Can pick up from North Hostel today', CURRENT_TIMESTAMP + INTERVAL '48 hours')
+RETURNING id, status, expires_at;
+
+-- @W11
+-- WRITE · Seller counters or accepts a pending offer (only on their own listing)
+UPDATE price_offers o
+SET status = 'accepted'
+FROM listings l
+WHERE o.id = 'c0000000-0000-0000-0000-000000008310'
+  AND l.id = o.listing_id
+  AND l.seller_id = 'a0000000-0000-0000-0000-000000001518'
+  AND o.status IN ('pending', 'countered')
+RETURNING o.id, o.status;
+
+-- @W12
+-- WRITE · Batch job: expire pending offers whose time ran out
+UPDATE price_offers
+SET status = 'expired'
+WHERE status IN ('pending', 'countered')
+  AND expires_at < CURRENT_TIMESTAMP;
+
+
