@@ -475,3 +475,100 @@ FROM (SELECT reviewee_id, round(avg(rating_stars), 2) AS avg_stars
 WHERE u.id = r.reviewee_id;
 
 
+-- ##############################################################################
+-- 7. CHAT                                  (chat.routes.js, mounted at /api/conversations)
+-- ##############################################################################
+
+-- @R25
+-- READ · My conversations: listing, other student, last message, unread count, newest first
+-- API: GET /api/conversations → conversation.repository.findForUser + findLastMessage + countUnread
+SELECT c.id, c.last_message_at, l.id AS listing_id, l.title, l.price,
+       other.full_name AS other_party, lm.message_body AS last_message, lm.sent_at AS last_sent_at,
+       (SELECT count(*) FROM chat_messages m
+        WHERE m.channel_id = c.id AND NOT m.is_read
+          AND m.sender_id <> 'a0000000-0000-0000-0000-000000001518') AS unread
+FROM chat_channels c
+JOIN listings l  ON l.id = c.listing_id
+JOIN users other ON other.id = CASE WHEN c.buyer_id = 'a0000000-0000-0000-0000-000000001518'
+                                    THEN c.seller_id ELSE c.buyer_id END
+LEFT JOIN LATERAL (
+    SELECT m.message_body, m.sent_at FROM chat_messages m
+    WHERE m.channel_id = c.id ORDER BY m.sent_at DESC LIMIT 1
+) lm ON TRUE
+WHERE (c.buyer_id = 'a0000000-0000-0000-0000-000000001518' OR c.seller_id = 'a0000000-0000-0000-0000-000000001518')
+  AND c.is_active
+ORDER BY c.last_message_at DESC;
+
+-- @R26
+-- READ · Open one conversation (check that I am a member)
+-- API: GET /api/conversations/:id → conversation.repository.findById
+SELECT c.id, c.listing_id, c.buyer_id, c.seller_id, c.is_active, l.title, l.status AS listing_status
+FROM chat_channels c
+JOIN listings l ON l.id = c.listing_id
+WHERE c.id = 'e0000000-0000-0000-0000-000000005586'
+  AND 'a0000000-0000-0000-0000-000000001518' IN (c.buyer_id, c.seller_id);
+
+-- @R27
+-- READ · Messages of a conversation, oldest first, with sender name
+-- API: GET /api/conversations/:id/messages → conversation.repository.findMessages
+SELECT m.id, m.sender_id, u.full_name AS sender_name, m.message_body, m.message_type, m.is_read, m.sent_at
+FROM chat_messages m
+JOIN users u ON u.id = m.sender_id
+WHERE m.channel_id = 'e0000000-0000-0000-0000-000000005586'
+ORDER BY m.sent_at, m.id;
+
+-- @R28
+-- READ · Unread badge: total unread messages for me across all my conversations
+-- API: GET /api/conversations/unread-count → chat.service.getUnreadTotal
+SELECT count(*) AS unread_total
+FROM chat_messages m
+JOIN chat_channels c ON c.id = m.channel_id
+WHERE (c.buyer_id = 'a0000000-0000-0000-0000-000000001518' OR c.seller_id = 'a0000000-0000-0000-0000-000000001518')
+  AND m.sender_id <> 'a0000000-0000-0000-0000-000000001518'
+  AND NOT m.is_read;
+
+-- @R29
+-- READ · "Chat with seller": is there already a conversation for this listing and buyer?
+-- API: POST /api/conversations → conversation.repository.findExisting
+SELECT c.id
+FROM chat_channels c
+JOIN listings l ON l.id = c.listing_id
+WHERE c.listing_id = 'b0000000-0000-0000-0000-000000000001'
+  AND c.buyer_id   = 'a0000000-0000-0000-0000-000000001518'
+  AND c.seller_id  = l.seller_id;
+
+-- @W18
+-- WRITE · Start a conversation with the seller (seller taken from the listing)
+-- API: POST /api/conversations → conversation.repository.create
+INSERT INTO chat_channels (listing_id, buyer_id, seller_id)
+SELECT l.id, 'a0000000-0000-0000-0000-000000001518', l.seller_id
+FROM listings l
+WHERE l.id = 'b0000000-0000-0000-0000-000000000001'
+ON CONFLICT (listing_id, buyer_id, seller_id) DO NOTHING
+RETURNING id;
+
+-- @W19
+-- WRITE · Send a message
+-- API: POST /api/conversations/:id/messages → conversation.repository.addMessage
+INSERT INTO chat_messages (channel_id, sender_id, message_body, message_type)
+VALUES ('e0000000-0000-0000-0000-000000005586', 'a0000000-0000-0000-0000-000000001518',
+        'Yes, still available. Can meet at North Hostel A foyer at 6 pm', 'text')
+RETURNING id, sent_at;
+
+-- @W20
+-- WRITE · Move the conversation to the top of the list after a new message
+-- API: conversation.repository.touch
+UPDATE chat_channels
+SET last_message_at = CURRENT_TIMESTAMP
+WHERE id = 'e0000000-0000-0000-0000-000000005586';
+
+-- @W21
+-- WRITE · Mark the other student's messages in this conversation as read
+-- API: PATCH /api/conversations/:id/read → conversation.repository.markRead
+UPDATE chat_messages
+SET is_read = TRUE
+WHERE channel_id = 'e0000000-0000-0000-0000-000000005586'
+  AND sender_id <> 'a0000000-0000-0000-0000-000000001518'
+  AND NOT is_read;
+
+
