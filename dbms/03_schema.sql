@@ -334,6 +334,10 @@ CREATE INDEX IF NOT EXISTS idx_lost_found_open_recent
 CREATE INDEX IF NOT EXISTS idx_chat_messages_unread 
     ON chat_messages(channel_id) WHERE is_read = FALSE;
 
+-- 3. Full-Text Search Index (OLX Keyword Search across Title & Description)
+CREATE INDEX IF NOT EXISTS idx_listings_fts_search 
+    ON listings USING GIN (to_tsvector('english', title || ' ' || description));
+
 -- ==============================================================================
 -- ANALYTICAL VIEWS
 -- ==============================================================================
@@ -408,5 +412,24 @@ JOIN handover_spots hs ON ht.spot_id = hs.id
 JOIN users b ON ht.buyer_id = b.id
 JOIN users s ON ht.seller_id = s.id
 WHERE ht.status IN ('scheduled', 'arrived');
+
+-- ==============================================================================
+-- SAMPLE VERIFICATION SEED FIXTURES (RISHIHOOD CAMPUS TEST DATA)
+-- ==============================================================================
+
+INSERT INTO categories (id, name, slug, icon_name, description, display_order)
+VALUES 
+    ('11111111-1111-1111-1111-111111111101', 'Dorm & Living', 'dorm-living', 'bed', 'Mattresses, study lamps, hangers, laundry baskets', 1),
+    ('11111111-1111-1111-1111-111111111102', 'Textbooks & Academics', 'textbooks', 'book-open', 'Course books, calculators, notebooks, lab gear', 2),
+    ('11111111-1111-1111-1111-111111111103', 'Electronics & Gadgets', 'electronics', 'monitor', 'Keyboards, monitors, extension boards, chargers', 3),
+    ('11111111-1111-1111-1111-111111111104', 'Cycles & Mobility', 'cycles-mobility', 'bike', 'Bicycles, skateboards, cycle accessories', 4)
+ON CONFLICT (slug) DO NOTHING;
+
+INSERT INTO handover_spots (id, spot_name, zone_code, landmark_description, security_level, available_hours)
+VALUES 
+    ('22222222-2222-2222-2222-222222222201', 'North Hostel A Foyer', 'HOSTEL_NORTH', 'Ground floor lobby directly opposite security desk', 'guard_station', '08:00 AM - 10:30 PM'),
+    ('22222222-2222-2222-2222-222222222202', 'Central Dining Hall Entrance', 'CENTRAL_MESS', 'Main glass door foyer near reception area', 'high_footfall', '07:30 AM - 10:00 PM'),
+    ('22222222-2222-2222-2222-222222222203', 'University Library Cafe Deck', 'ACADEMIC_BLOCK', 'Outdoor covered seating patio facing central fountain', 'cctv_monitored', '09:00 AM - 09:00 PM')
+ON CONFLICT (spot_name) DO NOTHING;
 
 COMMIT;
