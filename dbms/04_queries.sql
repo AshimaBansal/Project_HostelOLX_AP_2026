@@ -572,3 +572,118 @@ WHERE channel_id = 'e0000000-0000-0000-0000-000000005586'
   AND NOT is_read;
 
 
+-- ##############################################################################
+-- 8. LOST & FOUND + CLAIMS                        (lostFound.routes.js, claim.routes.js)
+-- ##############################################################################
+
+-- @R30
+-- READ · Lost & found board: open "lost" items, keyword search, newest first, with claim counts
+-- API: GET /api/lost-found?type=lost&q=bottle → lostFound.repository.findAll
+SELECT r.id, r.report_type, r.item_name, r.last_seen_location, r.event_date, r.custody_location, r.status,
+       c.name AS category, u.full_name AS reported_by, count(cr.id) AS claims
+FROM lost_found_reports r
+JOIN users u               ON u.id = r.reporter_id
+LEFT JOIN categories c     ON c.id = r.category_id
+LEFT JOIN claim_requests cr ON cr.report_id = r.id
+WHERE r.status = 'open'
+  AND r.report_type = 'lost'
+  AND (r.item_name ILIKE '%bottle%' OR r.description ILIKE '%bottle%' OR r.last_seen_location ILIKE '%bottle%')
+GROUP BY r.id, c.name, u.full_name
+ORDER BY r.created_at DESC
+LIMIT 20;
+
+-- @R31
+-- READ · One lost & found report with the reporter's contact
+-- API: GET /api/lost-found/:id → lostFound.repository.findById
+SELECT r.*, u.full_name AS reported_by, u.hostel_block, u.phone_number, c.name AS category
+FROM lost_found_reports r
+JOIN users u           ON u.id = r.reporter_id
+LEFT JOIN categories c ON c.id = r.category_id
+WHERE r.id = 'f0000000-0000-0000-0000-000000001501';
+
+-- @R32
+-- READ · Claims on my report (only the reporter sees them), newest first
+-- API: GET /api/lost-found/:id/claims → claim.repository.findByItem
+SELECT cr.id, cr.proof_description, cr.identifying_features, cr.contact_phone, cr.status, cr.created_at,
+       u.full_name AS claimant_name, u.hostel_block AS claimant_hostel
+FROM claim_requests cr
+JOIN lost_found_reports r ON r.id = cr.report_id
+JOIN users u              ON u.id = cr.claimant_id
+WHERE cr.report_id  = 'f0000000-0000-0000-0000-000000001501'
+  AND r.reporter_id = 'a0000000-0000-0000-0000-000000001518'
+ORDER BY cr.created_at DESC;
+
+-- @R33
+-- READ · "My claims": claims I made, with the item and its current status
+-- API: GET /api/claims/mine → claim.repository.findByClaimant
+SELECT cr.id, cr.status AS claim_status, cr.created_at,
+       r.id AS report_id, r.item_name, r.report_type, r.status AS report_status, r.custody_location
+FROM claim_requests cr
+JOIN lost_found_reports r ON r.id = cr.report_id
+WHERE cr.claimant_id = 'a0000000-0000-0000-0000-000000001518'
+ORDER BY cr.created_at DESC;
+
+-- @R34
+-- READ · Have I already claimed this item? (claim.repository.findExisting)
+SELECT id, status
+FROM claim_requests
+WHERE report_id = 'f0000000-0000-0000-0000-000000000001'
+  AND claimant_id = 'a0000000-0000-0000-0000-000000001518';
+
+-- @W22
+-- WRITE · Report a lost or found item
+-- API: POST /api/lost-found → lostFound.repository.create
+INSERT INTO lost_found_reports (reporter_id, category_id, report_type, item_name, description,
+                                last_seen_location, event_date, image_url, custody_location)
+VALUES ('a0000000-0000-0000-0000-000000001518', '11111111-1111-1111-1111-111111111103', 'found',
+        'Black Boat earphones', 'Found on the 2nd floor reading table, left side', 'Library 2nd floor',
+        CURRENT_DATE, 'https://cdn.hostelolx.in/lf/earphones.jpg', 'Library front desk')
+RETURNING id, status;
+
+-- @W23
+-- WRITE · Edit my report (only the reporter)
+-- API: PATCH /api/lost-found/:id → lostFound.repository.update
+UPDATE lost_found_reports
+SET custody_location = 'Security desk, North Hostel A', description = description || ' (handed to security)'
+WHERE id = 'f0000000-0000-0000-0000-000000001501'
+  AND reporter_id = 'a0000000-0000-0000-0000-000000001518';
+
+-- @W24
+-- WRITE · Claim an item; re-claiming after withdrawing sets it back to pending
+-- API: POST /api/lost-found/:id/claims → claim.repository.create / updateStatus
+INSERT INTO claim_requests (report_id, claimant_id, proof_description, identifying_features, contact_phone)
+VALUES ('f0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000001518',
+        'Lost it after the DBMS lab on Monday', 'Sticker of a cat on the cap', '+919800001518')
+ON CONFLICT (report_id, claimant_id) DO UPDATE
+SET status = 'pending', proof_description = EXCLUDED.proof_description
+RETURNING id, status;
+
+-- @W25
+-- WRITE · Reporter approves one claim
+-- API: PATCH /api/claims/:id → claim.repository.updateStatus
+UPDATE claim_requests cr
+SET status = 'approved', resolution_remarks = 'Verified the sticker on the cap'
+FROM lost_found_reports r
+WHERE cr.report_id = 'f0000000-0000-0000-0000-000000001501'
+  AND cr.claimant_id = 'a0000000-0000-0000-0000-000000001501'
+  AND r.id = cr.report_id
+  AND r.reporter_id = 'a0000000-0000-0000-0000-000000001518'
+RETURNING cr.id, cr.status;
+
+-- @W26
+-- WRITE · …and every other pending claim on that item is rejected
+-- API: claim.repository.rejectOtherPending
+UPDATE claim_requests
+SET status = 'rejected', resolution_remarks = 'Another claim was approved'
+WHERE report_id = 'f0000000-0000-0000-0000-000000001501'
+  AND claimant_id <> 'a0000000-0000-0000-0000-000000001501'
+  AND status IN ('pending', 'under_verification');
+
+-- @W27
+-- WRITE · …and the report is closed as resolved
+-- API: lostFound.repository.update({ status })
+UPDATE lost_found_reports
+SET status = 'resolved'
+WHERE id = 'f0000000-0000-0000-0000-000000001501';
+
+
