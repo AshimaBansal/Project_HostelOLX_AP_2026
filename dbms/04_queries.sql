@@ -306,3 +306,44 @@ SET view_count = view_count + 1
 WHERE id = 'b0000000-0000-0000-0000-000000000001';
 
 
+-- ##############################################################################
+-- 4. WISHLIST                                              (wishlist.routes.js)
+-- ##############################################################################
+
+-- @R19
+-- READ · My wishlist: saved listings with price, status, seller and cover photo, newest save first
+-- API: GET /api/wishlist → wishlist.repository.findByUser + listing.repository.findManyByIds
+SELECT s.listing_id, s.personal_note, s.created_at AS saved_at,
+       l.title, l.price, l.status, u.full_name AS seller_name, img.image_url AS cover_image
+FROM saved_listings s
+JOIN listings l ON l.id = s.listing_id
+JOIN users u    ON u.id = l.seller_id
+LEFT JOIN LATERAL (
+    SELECT li.image_url FROM listing_images li
+    WHERE li.listing_id = l.id ORDER BY li.is_cover DESC, li.display_order LIMIT 1
+) img ON TRUE
+WHERE s.user_id = 'a0000000-0000-0000-0000-000000001518'
+ORDER BY s.created_at DESC;
+
+-- @R20
+-- READ · Is this listing already in my wishlist? (heart icon state)
+-- API: wishlist.repository.exists
+SELECT EXISTS (SELECT 1 FROM saved_listings
+               WHERE user_id = 'a0000000-0000-0000-0000-000000001518'
+                 AND listing_id = 'b0000000-0000-0000-0000-000000000001') AS is_saved;
+
+-- @W8
+-- WRITE · Add to wishlist (ignore if already saved)
+-- API: POST /api/wishlist/:listingId → wishlist.repository.add
+INSERT INTO saved_listings (user_id, listing_id, personal_note)
+VALUES ('a0000000-0000-0000-0000-000000001518', 'b0000000-0000-0000-0000-000000000001', 'check if lamp has warm light')
+ON CONFLICT (user_id, listing_id) DO NOTHING;
+
+-- @W9
+-- WRITE · Remove from wishlist
+-- API: DELETE /api/wishlist/:listingId → wishlist.repository.remove
+DELETE FROM saved_listings
+WHERE user_id = 'a0000000-0000-0000-0000-000000001518'
+  AND listing_id = 'b0000000-0000-0000-0000-000000001124';
+
+
