@@ -1,0 +1,55 @@
+Query ID: W12
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                   QUERY PLAN                                                    
+-----------------------------------------------------------------------------------------------------------------
+ Update on price_offers  (cost=0.00..11.93 rows=0 width=0) (actual time=0.005..0.005 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on price_offers  (cost=0.00..11.93 rows=1 width=64) (actual time=0.004..0.004 rows=0.00 loops=1)
+         Filter: (((status)::text = ANY ('{pending,countered}'::text[])) AND (expires_at < CURRENT_TIMESTAMP))
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=155
+ Planning Time: 0.250 ms
+ Execution Time: 0.042 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                   QUERY PLAN                                                    
+-----------------------------------------------------------------------------------------------------------------
+ Update on price_offers  (cost=0.00..11.93 rows=0 width=0) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on price_offers  (cost=0.00..11.93 rows=1 width=64) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Filter: (((status)::text = ANY ('{pending,countered}'::text[])) AND (expires_at < CURRENT_TIMESTAMP))
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=155
+ Planning Time: 0.250 ms
+ Execution Time: 0.040 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                   QUERY PLAN                                                    
+-----------------------------------------------------------------------------------------------------------------
+ Update on price_offers  (cost=0.00..11.93 rows=0 width=0) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Seq Scan on price_offers  (cost=0.00..11.93 rows=1 width=64) (actual time=0.003..0.003 rows=0.00 loops=1)
+         Filter: (((status)::text = ANY ('{pending,countered}'::text[])) AND (expires_at < CURRENT_TIMESTAMP))
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=155
+ Planning Time: 0.240 ms
+ Execution Time: 0.042 ms
+(9 rows)
+
+ROLLBACK

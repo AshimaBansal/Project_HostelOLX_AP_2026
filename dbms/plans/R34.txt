@@ -1,0 +1,55 @@
+Query ID: R34
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_claim_requests_claimant on claim_requests  (cost=0.15..8.17 rows=1 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (report_id = 'f0000000-0000-0000-0000-000000000001'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=107
+ Planning Time: 0.208 ms
+ Execution Time: 0.018 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_claim_requests_claimant on claim_requests  (cost=0.15..8.17 rows=1 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (report_id = 'f0000000-0000-0000-0000-000000000001'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=107
+ Planning Time: 0.202 ms
+ Execution Time: 0.017 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_claim_requests_claimant on claim_requests  (cost=0.15..8.17 rows=1 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (report_id = 'f0000000-0000-0000-0000-000000000001'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=107
+ Planning Time: 0.199 ms
+ Execution Time: 0.017 ms
+(9 rows)
+
+ROLLBACK

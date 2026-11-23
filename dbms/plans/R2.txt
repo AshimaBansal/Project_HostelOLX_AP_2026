@@ -1,0 +1,103 @@
+Query ID: R2
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=24.51..24.54 rows=1 width=1152) (actual time=0.013..0.014 rows=0.00 loops=1)
+   Buffers: shared hit=5
+   ->  Sort  (cost=24.51..24.52 rows=1 width=1218) (actual time=0.013..0.013 rows=0.00 loops=1)
+         Sort Key: l.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=5
+         ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=1218) (actual time=0.001..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  Nested Loop Left Join  (cost=0.28..16.33 rows=1 width=1202) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=1128) (actual time=0.001..0.001 rows=0.00 loops=1)
+                           Index Cond: (id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 1
+                           Buffers: shared hit=2
+                     ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 0
+               ->  Index Only Scan using saved_listings_pkey on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Heap Fetches: 0
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=347
+ Planning Time: 0.751 ms
+ Execution Time: 0.071 ms
+(25 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=24.51..24.54 rows=1 width=1152) (actual time=0.008..0.009 rows=0.00 loops=1)
+   Buffers: shared hit=5
+   ->  Sort  (cost=24.51..24.52 rows=1 width=1218) (actual time=0.008..0.008 rows=0.00 loops=1)
+         Sort Key: l.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=5
+         ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=1218) (actual time=0.001..0.001 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  Nested Loop Left Join  (cost=0.28..16.33 rows=1 width=1202) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=1128) (actual time=0.001..0.001 rows=0.00 loops=1)
+                           Index Cond: (id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 1
+                           Buffers: shared hit=2
+                     ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 0
+               ->  Index Only Scan using saved_listings_pkey on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Heap Fetches: 0
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=347
+ Planning Time: 0.597 ms
+ Execution Time: 0.044 ms
+(25 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=24.51..24.54 rows=1 width=1152) (actual time=0.010..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=5
+   ->  Sort  (cost=24.51..24.52 rows=1 width=1218) (actual time=0.010..0.010 rows=0.00 loops=1)
+         Sort Key: l.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=5
+         ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=1218) (actual time=0.001..0.001 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  Nested Loop Left Join  (cost=0.28..16.33 rows=1 width=1202) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=1128) (actual time=0.001..0.001 rows=0.00 loops=1)
+                           Index Cond: (id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 1
+                           Buffers: shared hit=2
+                     ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                           Index Searches: 0
+               ->  Index Only Scan using saved_listings_pkey on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Heap Fetches: 0
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=347
+ Planning Time: 0.604 ms
+ Execution Time: 0.055 ms
+(25 rows)
+
+ROLLBACK

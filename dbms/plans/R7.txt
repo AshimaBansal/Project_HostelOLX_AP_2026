@@ -1,0 +1,52 @@
+Query ID: R7
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_slug_key on categories  (cost=0.14..8.16 rows=1 width=1006) (actual time=0.005..0.005 rows=1.00 loops=1)
+   Index Cond: ((slug)::text = 'electronics'::text)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=102
+ Planning Time: 0.173 ms
+ Execution Time: 0.019 ms
+(8 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_slug_key on categories  (cost=0.14..8.16 rows=1 width=1006) (actual time=0.004..0.004 rows=1.00 loops=1)
+   Index Cond: ((slug)::text = 'electronics'::text)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=102
+ Planning Time: 0.167 ms
+ Execution Time: 0.018 ms
+(8 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_slug_key on categories  (cost=0.14..8.16 rows=1 width=1006) (actual time=0.004..0.004 rows=1.00 loops=1)
+   Index Cond: ((slug)::text = 'electronics'::text)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=102
+ Planning Time: 0.167 ms
+ Execution Time: 0.021 ms
+(8 rows)
+
+ROLLBACK

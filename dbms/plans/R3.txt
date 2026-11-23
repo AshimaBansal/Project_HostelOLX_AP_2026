@@ -1,0 +1,112 @@
+Query ID: R3
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                          QUERY PLAN                                                           
+-------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=11.46..33.17 rows=1 width=726) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=614) (actual time=0.003..0.003 rows=0.00 loops=1)
+         Index Cond: (id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Aggregate  (cost=11.32..11.34 rows=1 width=104) (never executed)
+         ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=6) (never executed)
+               Recheck Cond: (reviewee_id = u.id)
+               ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                     Index Cond: (reviewee_id = u.id)
+                     Index Searches: 0
+   SubPlan 1
+     ->  Aggregate  (cost=13.66..13.67 rows=1 width=8) (never executed)
+           ->  Bitmap Heap Scan on handover_transactions t  (cost=8.31..13.66 rows=1 width=0) (never executed)
+                 Recheck Cond: ((seller_id = u.id) OR (buyer_id = u.id))
+                 Filter: ((status)::text = 'completed'::text)
+                 ->  BitmapOr  (cost=8.31..8.31 rows=2 width=0) (never executed)
+                       ->  Bitmap Index Scan on idx_handover_tx_seller  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (seller_id = u.id)
+                             Index Searches: 0
+                       ->  Bitmap Index Scan on idx_handover_tx_buyer  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (buyer_id = u.id)
+                             Index Searches: 0
+ Planning:
+   Buffers: shared hit=293
+ Planning Time: 0.763 ms
+ Execution Time: 0.060 ms
+(28 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                          QUERY PLAN                                                           
+-------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=11.46..33.17 rows=1 width=726) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=614) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Aggregate  (cost=11.32..11.34 rows=1 width=104) (never executed)
+         ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=6) (never executed)
+               Recheck Cond: (reviewee_id = u.id)
+               ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                     Index Cond: (reviewee_id = u.id)
+                     Index Searches: 0
+   SubPlan 1
+     ->  Aggregate  (cost=13.66..13.67 rows=1 width=8) (never executed)
+           ->  Bitmap Heap Scan on handover_transactions t  (cost=8.31..13.66 rows=1 width=0) (never executed)
+                 Recheck Cond: ((seller_id = u.id) OR (buyer_id = u.id))
+                 Filter: ((status)::text = 'completed'::text)
+                 ->  BitmapOr  (cost=8.31..8.31 rows=2 width=0) (never executed)
+                       ->  Bitmap Index Scan on idx_handover_tx_seller  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (seller_id = u.id)
+                             Index Searches: 0
+                       ->  Bitmap Index Scan on idx_handover_tx_buyer  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (buyer_id = u.id)
+                             Index Searches: 0
+ Planning:
+   Buffers: shared hit=293
+ Planning Time: 0.531 ms
+ Execution Time: 0.046 ms
+(28 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                          QUERY PLAN                                                           
+-------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=11.46..33.17 rows=1 width=726) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=614) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Aggregate  (cost=11.32..11.34 rows=1 width=104) (never executed)
+         ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=6) (never executed)
+               Recheck Cond: (reviewee_id = u.id)
+               ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                     Index Cond: (reviewee_id = u.id)
+                     Index Searches: 0
+   SubPlan 1
+     ->  Aggregate  (cost=13.66..13.67 rows=1 width=8) (never executed)
+           ->  Bitmap Heap Scan on handover_transactions t  (cost=8.31..13.66 rows=1 width=0) (never executed)
+                 Recheck Cond: ((seller_id = u.id) OR (buyer_id = u.id))
+                 Filter: ((status)::text = 'completed'::text)
+                 ->  BitmapOr  (cost=8.31..8.31 rows=2 width=0) (never executed)
+                       ->  Bitmap Index Scan on idx_handover_tx_seller  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (seller_id = u.id)
+                             Index Searches: 0
+                       ->  Bitmap Index Scan on idx_handover_tx_buyer  (cost=0.00..4.15 rows=1 width=0) (never executed)
+                             Index Cond: (buyer_id = u.id)
+                             Index Searches: 0
+ Planning:
+   Buffers: shared hit=293
+ Planning Time: 0.548 ms
+ Execution Time: 0.049 ms
+(28 rows)
+
+ROLLBACK

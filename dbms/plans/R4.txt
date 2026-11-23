@@ -1,0 +1,109 @@
+Query ID: R4
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.009 rows=0.00 loops=1)
+         Sort Key: pr.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Nested Loop  (cost=22.33..36.72 rows=3 width=682) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=22.19..35.66 rows=3 width=320) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Hash Cond: (t.id = pr.transaction_id)
+                     ->  Seq Scan on handover_transactions t  (cost=0.00..12.50 rows=250 width=32) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=22.15..22.15 rows=3 width=320) (never executed)
+                           ->  Hash Join  (cost=11.32..22.15 rows=3 width=320) (never executed)
+                                 Hash Cond: (rv.id = pr.reviewer_id)
+                                 ->  Seq Scan on users rv  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                                 ->  Hash  (cost=11.28..11.28 rows=3 width=78) (never executed)
+                                       ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=78) (never executed)
+                                             Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                             ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                                                   Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                                   Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..0.35 rows=1 width=394) (never executed)
+                     Index Cond: (id = t.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=579
+ Planning Time: 0.914 ms
+ Execution Time: 0.039 ms
+(27 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.009 rows=0.00 loops=1)
+         Sort Key: pr.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Nested Loop  (cost=22.33..36.72 rows=3 width=682) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=22.19..35.66 rows=3 width=320) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Hash Cond: (t.id = pr.transaction_id)
+                     ->  Seq Scan on handover_transactions t  (cost=0.00..12.50 rows=250 width=32) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=22.15..22.15 rows=3 width=320) (never executed)
+                           ->  Hash Join  (cost=11.32..22.15 rows=3 width=320) (never executed)
+                                 Hash Cond: (rv.id = pr.reviewer_id)
+                                 ->  Seq Scan on users rv  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                                 ->  Hash  (cost=11.28..11.28 rows=3 width=78) (never executed)
+                                       ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=78) (never executed)
+                                             Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                             ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                                                   Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                                   Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..0.35 rows=1 width=394) (never executed)
+                     Index Cond: (id = t.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=579
+ Planning Time: 0.954 ms
+ Execution Time: 0.040 ms
+(27 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=36.74..36.75 rows=3 width=682) (actual time=0.009..0.009 rows=0.00 loops=1)
+         Sort Key: pr.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Nested Loop  (cost=22.33..36.72 rows=3 width=682) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=22.19..35.66 rows=3 width=320) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Hash Cond: (t.id = pr.transaction_id)
+                     ->  Seq Scan on handover_transactions t  (cost=0.00..12.50 rows=250 width=32) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=22.15..22.15 rows=3 width=320) (never executed)
+                           ->  Hash Join  (cost=11.32..22.15 rows=3 width=320) (never executed)
+                                 Hash Cond: (rv.id = pr.reviewer_id)
+                                 ->  Seq Scan on users rv  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                                 ->  Hash  (cost=11.28..11.28 rows=3 width=78) (never executed)
+                                       ->  Bitmap Heap Scan on peer_reviews pr  (cost=4.17..11.28 rows=3 width=78) (never executed)
+                                             Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                             ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (never executed)
+                                                   Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000024'::uuid)
+                                                   Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..0.35 rows=1 width=394) (never executed)
+                     Index Cond: (id = t.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=579
+ Planning Time: 0.933 ms
+ Execution Time: 0.038 ms
+(27 rows)
+
+ROLLBACK

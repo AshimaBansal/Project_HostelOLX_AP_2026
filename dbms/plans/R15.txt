@@ -1,0 +1,130 @@
+Query ID: R15
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.57..49.61 rows=1 width=1800) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=1439) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=1051) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=711) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=372) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+   ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=384) (never executed)
+         Index Cond: (id = l.preferred_spot_id)
+         Index Searches: 0
+   SubPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=0) (never executed)
+           Index Cond: (listing_id = l.id)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 0
+   SubPlan 3
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (never executed)
+           ->  Index Only Scan using idx_saved_listings_listing on saved_listings s_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                 Index Cond: (listing_id = l.id)
+                 Heap Fetches: 0
+                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=566
+ Planning Time: 0.828 ms
+ Execution Time: 0.041 ms
+(34 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.57..49.61 rows=1 width=1800) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=1439) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=1051) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=711) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=372) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+   ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=384) (never executed)
+         Index Cond: (id = l.preferred_spot_id)
+         Index Searches: 0
+   SubPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=0) (never executed)
+           Index Cond: (listing_id = l.id)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 0
+   SubPlan 3
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (never executed)
+           ->  Index Only Scan using idx_saved_listings_listing on saved_listings s_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                 Index Cond: (listing_id = l.id)
+                 Heap Fetches: 0
+                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=566
+ Planning Time: 0.801 ms
+ Execution Time: 0.042 ms
+(34 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.57..49.61 rows=1 width=1800) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=1439) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=1051) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=711) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=372) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+   ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=384) (never executed)
+         Index Cond: (id = l.preferred_spot_id)
+         Index Searches: 0
+   SubPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=0) (never executed)
+           Index Cond: (listing_id = l.id)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 0
+   SubPlan 3
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (never executed)
+           ->  Index Only Scan using idx_saved_listings_listing on saved_listings s_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                 Index Cond: (listing_id = l.id)
+                 Heap Fetches: 0
+                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=566
+ Planning Time: 0.803 ms
+ Execution Time: 0.042 ms
+(34 rows)
+
+ROLLBACK

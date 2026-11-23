@@ -1,0 +1,70 @@
+Query ID: W18
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                             QUERY PLAN                                                             
+------------------------------------------------------------------------------------------------------------------------------------
+ Insert on chat_channels  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Conflict Resolution: NOTHING
+   Conflict Arbiter Indexes: uq_channel_listing_buyer_seller
+   Tuples Inserted: 0
+   Conflicting Tuples: 0
+   Buffers: shared hit=1
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=273
+ Planning Time: 0.352 ms
+ Execution Time: 0.023 ms
+(14 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                             QUERY PLAN                                                             
+------------------------------------------------------------------------------------------------------------------------------------
+ Insert on chat_channels  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Conflict Resolution: NOTHING
+   Conflict Arbiter Indexes: uq_channel_listing_buyer_seller
+   Tuples Inserted: 0
+   Conflicting Tuples: 0
+   Buffers: shared hit=1
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=273
+ Planning Time: 0.366 ms
+ Execution Time: 0.024 ms
+(14 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                             QUERY PLAN                                                             
+------------------------------------------------------------------------------------------------------------------------------------
+ Insert on chat_channels  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Conflict Resolution: NOTHING
+   Conflict Arbiter Indexes: uq_channel_listing_buyer_seller
+   Tuples Inserted: 0
+   Conflicting Tuples: 0
+   Buffers: shared hit=1
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.17 rows=1 width=81) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=273
+ Planning Time: 0.342 ms
+ Execution Time: 0.023 ms
+(14 rows)
+
+ROLLBACK

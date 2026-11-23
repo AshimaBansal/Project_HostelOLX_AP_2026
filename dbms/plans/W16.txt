@@ -1,0 +1,19 @@
+Query ID: W16
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "peer_reviews" violates foreign key constraint "peer_reviews_transaction_id_fkey"
+DETAIL:  Key (transaction_id)=(d0000000-0000-0000-0000-000000000025) is not present in table "handover_transactions".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "peer_reviews" violates foreign key constraint "peer_reviews_transaction_id_fkey"
+DETAIL:  Key (transaction_id)=(d0000000-0000-0000-0000-000000000025) is not present in table "handover_transactions".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "peer_reviews" violates foreign key constraint "peer_reviews_transaction_id_fkey"
+DETAIL:  Key (transaction_id)=(d0000000-0000-0000-0000-000000000025) is not present in table "handover_transactions".

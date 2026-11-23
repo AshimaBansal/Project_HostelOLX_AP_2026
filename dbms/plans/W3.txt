@@ -1,0 +1,19 @@
+Query ID: W3
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "listing_images" violates foreign key constraint "listing_images_listing_id_fkey"
+DETAIL:  Key (listing_id)=(b0000000-0000-0000-0000-000000004931) is not present in table "listings".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "listing_images" violates foreign key constraint "listing_images_listing_id_fkey"
+DETAIL:  Key (listing_id)=(b0000000-0000-0000-0000-000000004931) is not present in table "listings".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "listing_images" violates foreign key constraint "listing_images_listing_id_fkey"
+DETAIL:  Key (listing_id)=(b0000000-0000-0000-0000-000000004931) is not present in table "listings".

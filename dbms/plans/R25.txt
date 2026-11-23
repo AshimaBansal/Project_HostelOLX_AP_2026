@@ -1,0 +1,139 @@
+Query ID: R25
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=50.12..50.12 rows=1 width=740) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Sort Key: c.last_message_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3
+   ->  Nested Loop Left Join  (cost=18.86..50.11 rows=1 width=740) (actual time=0.002..0.002 rows=0.00 loops=1)
+         ->  Nested Loop  (cost=18.72..35.75 rows=1 width=692) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=18.57..29.48 rows=1 width=298) (actual time=0.001..0.002 rows=0.00 loops=1)
+                     Hash Cond: (other.id = CASE WHEN (c.buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) THEN c.seller_id ELSE c.buyer_id END)
+                     ->  Seq Scan on users other  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=18.52..18.52 rows=4 width=72) (never executed)
+                           ->  Bitmap Heap Scan on chat_channels c  (cost=8.36..18.52 rows=4 width=72) (never executed)
+                                 Recheck Cond: ((buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) OR (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+                                 Filter: is_active
+                                 ->  BitmapOr  (cost=8.36..8.36 rows=7 width=0) (never executed)
+                                       ->  Bitmap Index Scan on idx_chat_channels_buyer  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+                                       ->  Bitmap Index Scan on idx_chat_channels_seller  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..6.16 rows=1 width=410) (never executed)
+                     Index Cond: (id = c.listing_id)
+                     Index Searches: 0
+         ->  Limit  (cost=0.15..6.17 rows=1 width=40) (never executed)
+               ->  Index Scan Backward using idx_chat_messages_channel on chat_messages m  (cost=0.15..12.18 rows=2 width=40) (never executed)
+                     Index Cond: (channel_id = c.id)
+                     Index Searches: 0
+         SubPlan 1
+           ->  Aggregate  (cost=8.17..8.18 rows=1 width=8) (never executed)
+                 ->  Index Scan using idx_chat_messages_unread on chat_messages m_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                       Index Cond: (channel_id = c.id)
+                       Filter: (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid)
+                       Index Searches: 0
+ Planning:
+   Buffers: shared hit=567
+ Planning Time: 0.847 ms
+ Execution Time: 0.044 ms
+(37 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=50.12..50.12 rows=1 width=740) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Sort Key: c.last_message_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3
+   ->  Nested Loop Left Join  (cost=18.86..50.11 rows=1 width=740) (actual time=0.002..0.002 rows=0.00 loops=1)
+         ->  Nested Loop  (cost=18.72..35.75 rows=1 width=692) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=18.57..29.48 rows=1 width=298) (actual time=0.001..0.002 rows=0.00 loops=1)
+                     Hash Cond: (other.id = CASE WHEN (c.buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) THEN c.seller_id ELSE c.buyer_id END)
+                     ->  Seq Scan on users other  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=18.52..18.52 rows=4 width=72) (never executed)
+                           ->  Bitmap Heap Scan on chat_channels c  (cost=8.36..18.52 rows=4 width=72) (never executed)
+                                 Recheck Cond: ((buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) OR (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+                                 Filter: is_active
+                                 ->  BitmapOr  (cost=8.36..8.36 rows=7 width=0) (never executed)
+                                       ->  Bitmap Index Scan on idx_chat_channels_buyer  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+                                       ->  Bitmap Index Scan on idx_chat_channels_seller  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..6.16 rows=1 width=410) (never executed)
+                     Index Cond: (id = c.listing_id)
+                     Index Searches: 0
+         ->  Limit  (cost=0.15..6.17 rows=1 width=40) (never executed)
+               ->  Index Scan Backward using idx_chat_messages_channel on chat_messages m  (cost=0.15..12.18 rows=2 width=40) (never executed)
+                     Index Cond: (channel_id = c.id)
+                     Index Searches: 0
+         SubPlan 1
+           ->  Aggregate  (cost=8.17..8.18 rows=1 width=8) (never executed)
+                 ->  Index Scan using idx_chat_messages_unread on chat_messages m_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                       Index Cond: (channel_id = c.id)
+                       Filter: (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid)
+                       Index Searches: 0
+ Planning:
+   Buffers: shared hit=567
+ Planning Time: 0.791 ms
+ Execution Time: 0.045 ms
+(37 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=50.12..50.12 rows=1 width=740) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Sort Key: c.last_message_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=3
+   ->  Nested Loop Left Join  (cost=18.86..50.11 rows=1 width=740) (actual time=0.002..0.002 rows=0.00 loops=1)
+         ->  Nested Loop  (cost=18.72..35.75 rows=1 width=692) (actual time=0.002..0.002 rows=0.00 loops=1)
+               ->  Hash Join  (cost=18.57..29.48 rows=1 width=298) (actual time=0.001..0.002 rows=0.00 loops=1)
+                     Hash Cond: (other.id = CASE WHEN (c.buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) THEN c.seller_id ELSE c.buyer_id END)
+                     ->  Seq Scan on users other  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+                     ->  Hash  (cost=18.52..18.52 rows=4 width=72) (never executed)
+                           ->  Bitmap Heap Scan on chat_channels c  (cost=8.36..18.52 rows=4 width=72) (never executed)
+                                 Recheck Cond: ((buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid) OR (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+                                 Filter: is_active
+                                 ->  BitmapOr  (cost=8.36..8.36 rows=7 width=0) (never executed)
+                                       ->  Bitmap Index Scan on idx_chat_channels_buyer  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+                                       ->  Bitmap Index Scan on idx_chat_channels_seller  (cost=0.00..4.18 rows=4 width=0) (never executed)
+                                             Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                             Index Searches: 0
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..6.16 rows=1 width=410) (never executed)
+                     Index Cond: (id = c.listing_id)
+                     Index Searches: 0
+         ->  Limit  (cost=0.15..6.17 rows=1 width=40) (never executed)
+               ->  Index Scan Backward using idx_chat_messages_channel on chat_messages m  (cost=0.15..12.18 rows=2 width=40) (never executed)
+                     Index Cond: (channel_id = c.id)
+                     Index Searches: 0
+         SubPlan 1
+           ->  Aggregate  (cost=8.17..8.18 rows=1 width=8) (never executed)
+                 ->  Index Scan using idx_chat_messages_unread on chat_messages m_1  (cost=0.14..8.16 rows=1 width=0) (never executed)
+                       Index Cond: (channel_id = c.id)
+                       Filter: (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid)
+                       Index Searches: 0
+ Planning:
+   Buffers: shared hit=567
+ Planning Time: 0.756 ms
+ Execution Time: 0.045 ms
+(37 rows)
+
+ROLLBACK

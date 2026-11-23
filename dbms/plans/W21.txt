@@ -1,0 +1,61 @@
+Query ID: W21
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_messages  (cost=0.14..8.16 rows=0 width=0) (actual time=0.006..0.006 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Index Scan using idx_chat_messages_unread on chat_messages  (cost=0.14..8.16 rows=1 width=7) (actual time=0.006..0.006 rows=0.00 loops=1)
+         Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Filter: ((NOT is_read) AND (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=129
+ Planning Time: 0.240 ms
+ Execution Time: 0.051 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_messages  (cost=0.14..8.16 rows=0 width=0) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using idx_chat_messages_unread on chat_messages  (cost=0.14..8.16 rows=1 width=7) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Filter: ((NOT is_read) AND (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=129
+ Planning Time: 0.248 ms
+ Execution Time: 0.048 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                   QUERY PLAN                                                                    
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_messages  (cost=0.14..8.16 rows=0 width=0) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using idx_chat_messages_unread on chat_messages  (cost=0.14..8.16 rows=1 width=7) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Filter: ((NOT is_read) AND (sender_id <> 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=129
+ Planning Time: 0.248 ms
+ Execution Time: 0.051 ms
+(11 rows)
+
+ROLLBACK

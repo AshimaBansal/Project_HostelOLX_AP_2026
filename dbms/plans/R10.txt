@@ -1,0 +1,73 @@
+Query ID: R10
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=21.19..21.20 rows=1 width=32) (actual time=0.021..0.021 rows=1.00 loops=1)
+   Buffers: shared hit=3
+   InitPlan 1
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (actual time=0.016..0.016 rows=1.00 loops=1)
+           Buffers: shared hit=2
+           ->  Index Only Scan using idx_lost_found_open_recent on lost_found_reports  (cost=0.14..8.15 rows=1 width=0) (actual time=0.016..0.016 rows=0.00 loops=1)
+                 Heap Fetches: 3
+                 Index Searches: 1
+                 Buffers: shared hit=2
+   ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=279
+ Planning Time: 0.497 ms
+ Execution Time: 0.044 ms
+(15 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=21.19..21.20 rows=1 width=32) (actual time=0.008..0.008 rows=1.00 loops=1)
+   Buffers: shared hit=2
+   InitPlan 1
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (actual time=0.003..0.003 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Index Only Scan using idx_lost_found_open_recent on lost_found_reports  (cost=0.14..8.15 rows=1 width=0) (actual time=0.003..0.003 rows=0.00 loops=1)
+                 Heap Fetches: 0
+                 Index Searches: 1
+                 Buffers: shared hit=1
+   ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=279
+ Planning Time: 0.456 ms
+ Execution Time: 0.031 ms
+(15 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=21.19..21.20 rows=1 width=32) (actual time=0.007..0.007 rows=1.00 loops=1)
+   Buffers: shared hit=2
+   InitPlan 1
+     ->  Aggregate  (cost=8.16..8.17 rows=1 width=8) (actual time=0.003..0.003 rows=1.00 loops=1)
+           Buffers: shared hit=1
+           ->  Index Only Scan using idx_lost_found_open_recent on lost_found_reports  (cost=0.14..8.15 rows=1 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+                 Heap Fetches: 0
+                 Index Searches: 1
+                 Buffers: shared hit=1
+   ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=74) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=279
+ Planning Time: 0.540 ms
+ Execution Time: 0.028 ms
+(15 rows)
+
+ROLLBACK

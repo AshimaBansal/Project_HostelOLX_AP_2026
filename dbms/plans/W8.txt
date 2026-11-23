@@ -1,0 +1,19 @@
+Query ID: W8
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "saved_listings" violates foreign key constraint "saved_listings_user_id_fkey"
+DETAIL:  Key (user_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "saved_listings" violates foreign key constraint "saved_listings_user_id_fkey"
+DETAIL:  Key (user_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "saved_listings" violates foreign key constraint "saved_listings_user_id_fkey"
+DETAIL:  Key (user_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".

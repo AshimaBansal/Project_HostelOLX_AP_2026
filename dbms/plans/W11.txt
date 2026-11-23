@@ -1,0 +1,79 @@
+Query ID: W11
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on price_offers o  (cost=0.29..16.34 rows=1 width=70) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=70) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Join Filter: (o.listing_id = l.id)
+         Buffers: shared hit=1
+         ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+               Filter: ((status)::text = ANY ('{pending,countered}'::text[]))
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=423
+ Planning Time: 0.522 ms
+ Execution Time: 0.056 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on price_offers o  (cost=0.29..16.34 rows=1 width=70) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=70) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Join Filter: (o.listing_id = l.id)
+         Buffers: shared hit=1
+         ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+               Filter: ((status)::text = ANY ('{pending,countered}'::text[]))
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=423
+ Planning Time: 0.534 ms
+ Execution Time: 0.047 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on price_offers o  (cost=0.29..16.34 rows=1 width=70) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=70) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Join Filter: (o.listing_id = l.id)
+         Buffers: shared hit=1
+         ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+               Filter: ((status)::text = ANY ('{pending,countered}'::text[]))
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=423
+ Planning Time: 0.545 ms
+ Execution Time: 0.053 ms
+(17 rows)
+
+ROLLBACK

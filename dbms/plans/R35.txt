@@ -1,0 +1,106 @@
+Query ID: R35
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:28
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.013..0.014 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.012..0.013 rows=0.00 loops=1)
+         Sort Key: sr.created_at
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Hash Right Join  (cost=34.87..46.39 rows=2 width=1096) (actual time=0.008..0.009 rows=0.00 loops=1)
+               Hash Cond: (l.id = sr.reported_listing_id)
+               ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=394) (never executed)
+               ->  Hash  (cost=34.84..34.84 rows=2 width=734) (actual time=0.004..0.005 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     ->  Hash Right Join  (cost=24.01..34.84 rows=2 width=734) (actual time=0.004..0.005 rows=0.00 loops=1)
+                           Hash Cond: (ru.id = sr.reported_user_id)
+                           ->  Seq Scan on users ru  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                           ->  Hash  (cost=23.98..23.98 rows=2 width=492) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                 ->  Hash Join  (cost=13.15..23.98 rows=2 width=492) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       Hash Cond: (rep.id = sr.reporter_id)
+                                       ->  Seq Scan on users rep  (cost=0.00..10.60 rows=60 width=274) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       ->  Hash  (cost=13.12..13.12 rows=2 width=250) (never executed)
+                                             ->  Seq Scan on safety_reports sr  (cost=0.00..13.12 rows=2 width=250) (never executed)
+                                                   Filter: ((status)::text = ANY ('{pending,investigating}'::text[]))
+ Planning:
+   Buffers: shared hit=508
+ Planning Time: 0.716 ms
+ Execution Time: 0.038 ms
+(26 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.011..0.012 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.011..0.011 rows=0.00 loops=1)
+         Sort Key: sr.created_at
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Hash Right Join  (cost=34.87..46.39 rows=2 width=1096) (actual time=0.007..0.007 rows=0.00 loops=1)
+               Hash Cond: (l.id = sr.reported_listing_id)
+               ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=394) (never executed)
+               ->  Hash  (cost=34.84..34.84 rows=2 width=734) (actual time=0.004..0.005 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     ->  Hash Right Join  (cost=24.01..34.84 rows=2 width=734) (actual time=0.004..0.004 rows=0.00 loops=1)
+                           Hash Cond: (ru.id = sr.reported_user_id)
+                           ->  Seq Scan on users ru  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                           ->  Hash  (cost=23.98..23.98 rows=2 width=492) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                 ->  Hash Join  (cost=13.15..23.98 rows=2 width=492) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       Hash Cond: (rep.id = sr.reporter_id)
+                                       ->  Seq Scan on users rep  (cost=0.00..10.60 rows=60 width=274) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       ->  Hash  (cost=13.12..13.12 rows=2 width=250) (never executed)
+                                             ->  Seq Scan on safety_reports sr  (cost=0.00..13.12 rows=2 width=250) (never executed)
+                                                   Filter: ((status)::text = ANY ('{pending,investigating}'::text[]))
+ Planning:
+   Buffers: shared hit=508
+ Planning Time: 0.638 ms
+ Execution Time: 0.036 ms
+(26 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.012..0.013 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Sort  (cost=46.40..46.41 rows=2 width=1096) (actual time=0.012..0.013 rows=0.00 loops=1)
+         Sort Key: sr.created_at
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=3
+         ->  Hash Right Join  (cost=34.87..46.39 rows=2 width=1096) (actual time=0.007..0.008 rows=0.00 loops=1)
+               Hash Cond: (l.id = sr.reported_listing_id)
+               ->  Seq Scan on listings l  (cost=0.00..11.10 rows=110 width=394) (never executed)
+               ->  Hash  (cost=34.84..34.84 rows=2 width=734) (actual time=0.004..0.005 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     ->  Hash Right Join  (cost=24.01..34.84 rows=2 width=734) (actual time=0.004..0.005 rows=0.00 loops=1)
+                           Hash Cond: (ru.id = sr.reported_user_id)
+                           ->  Seq Scan on users ru  (cost=0.00..10.60 rows=60 width=274) (never executed)
+                           ->  Hash  (cost=23.98..23.98 rows=2 width=492) (actual time=0.002..0.003 rows=0.00 loops=1)
+                                 Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                 ->  Hash Join  (cost=13.15..23.98 rows=2 width=492) (actual time=0.002..0.003 rows=0.00 loops=1)
+                                       Hash Cond: (rep.id = sr.reporter_id)
+                                       ->  Seq Scan on users rep  (cost=0.00..10.60 rows=60 width=274) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       ->  Hash  (cost=13.12..13.12 rows=2 width=250) (never executed)
+                                             ->  Seq Scan on safety_reports sr  (cost=0.00..13.12 rows=2 width=250) (never executed)
+                                                   Filter: ((status)::text = ANY ('{pending,investigating}'::text[]))
+ Planning:
+   Buffers: shared hit=508
+ Planning Time: 0.653 ms
+ Execution Time: 0.038 ms
+(26 rows)
+
+ROLLBACK

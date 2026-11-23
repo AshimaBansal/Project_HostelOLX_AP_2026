@@ -1,0 +1,76 @@
+Query ID: R9
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.29..16.35 rows=1 width=668) (actual time=0.006..0.006 rows=1.00 loops=1)
+   Buffers: shared hit=4
+   ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=734) (actual time=0.002..0.003 rows=1.00 loops=1)
+         Buffers: shared hit=4
+         ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=660) (actual time=0.001..0.001 rows=1.00 loops=1)
+               Index Cond: (id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using idx_handover_tx_spot on handover_transactions t  (cost=0.14..8.16 rows=1 width=90) (actual time=0.000..0.000 rows=0.00 loops=1)
+               Index Cond: (spot_id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=221
+ Planning Time: 0.356 ms
+ Execution Time: 0.026 ms
+(16 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.29..16.35 rows=1 width=668) (actual time=0.006..0.006 rows=1.00 loops=1)
+   Buffers: shared hit=4
+   ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=734) (actual time=0.002..0.003 rows=1.00 loops=1)
+         Buffers: shared hit=4
+         ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=660) (actual time=0.001..0.001 rows=1.00 loops=1)
+               Index Cond: (id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using idx_handover_tx_spot on handover_transactions t  (cost=0.14..8.16 rows=1 width=90) (actual time=0.000..0.000 rows=0.00 loops=1)
+               Index Cond: (spot_id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=221
+ Planning Time: 0.351 ms
+ Execution Time: 0.026 ms
+(16 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.29..16.35 rows=1 width=668) (actual time=0.006..0.006 rows=1.00 loops=1)
+   Buffers: shared hit=4
+   ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=734) (actual time=0.002..0.002 rows=1.00 loops=1)
+         Buffers: shared hit=4
+         ->  Index Scan using handover_spots_pkey on handover_spots hs  (cost=0.14..8.16 rows=1 width=660) (actual time=0.001..0.001 rows=1.00 loops=1)
+               Index Cond: (id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using idx_handover_tx_spot on handover_transactions t  (cost=0.14..8.16 rows=1 width=90) (actual time=0.000..0.000 rows=0.00 loops=1)
+               Index Cond: (spot_id = '22222222-2222-2222-2222-222222222201'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=221
+ Planning Time: 0.347 ms
+ Execution Time: 0.026 ms
+(16 rows)
+
+ROLLBACK

@@ -1,0 +1,82 @@
+Query ID: R31
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.42..24.96 rows=1 width=1854) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.28..16.58 rows=1 width=1676) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using lost_found_reports_pkey on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1242) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=450) (never executed)
+               Index Cond: (id = r.reporter_id)
+               Index Searches: 0
+   ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+         Index Cond: (id = r.category_id)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=409
+ Planning Time: 0.686 ms
+ Execution Time: 0.028 ms
+(18 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.42..24.96 rows=1 width=1854) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.28..16.58 rows=1 width=1676) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using lost_found_reports_pkey on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1242) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=450) (never executed)
+               Index Cond: (id = r.reporter_id)
+               Index Searches: 0
+   ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+         Index Cond: (id = r.category_id)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=409
+ Planning Time: 0.533 ms
+ Execution Time: 0.026 ms
+(18 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.42..24.96 rows=1 width=1854) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.28..16.58 rows=1 width=1676) (actual time=0.002..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using lost_found_reports_pkey on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1242) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=450) (never executed)
+               Index Cond: (id = r.reporter_id)
+               Index Searches: 0
+   ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+         Index Cond: (id = r.category_id)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=409
+ Planning Time: 0.973 ms
+ Execution Time: 0.030 ms
+(18 rows)
+
+ROLLBACK

@@ -1,0 +1,79 @@
+Query ID: W13
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on handover_transactions  (cost=0.29..16.51 rows=1 width=298) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Subquery Scan on "*SELECT*"  (cost=0.29..16.51 rows=1 width=298) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.49 rows=1 width=184) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=80) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (id = o.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=379
+ Planning Time: 0.539 ms
+ Execution Time: 0.026 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on handover_transactions  (cost=0.29..16.51 rows=1 width=298) (actual time=0.003..0.004 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Subquery Scan on "*SELECT*"  (cost=0.29..16.51 rows=1 width=298) (actual time=0.003..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.49 rows=1 width=184) (actual time=0.003..0.003 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=80) (actual time=0.002..0.003 rows=0.00 loops=1)
+                     Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (id = o.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=379
+ Planning Time: 0.541 ms
+ Execution Time: 0.029 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on handover_transactions  (cost=0.29..16.51 rows=1 width=298) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Subquery Scan on "*SELECT*"  (cost=0.29..16.51 rows=1 width=298) (actual time=0.003..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.49 rows=1 width=184) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using price_offers_pkey on price_offers o  (cost=0.14..8.16 rows=1 width=80) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (id = 'c0000000-0000-0000-0000-000000008310'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                     Index Cond: (id = o.listing_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=379
+ Planning Time: 0.544 ms
+ Execution Time: 0.028 ms
+(17 rows)
+
+ROLLBACK

@@ -1,0 +1,19 @@
+Query ID: W24
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "claim_requests" violates foreign key constraint "claim_requests_report_id_fkey"
+DETAIL:  Key (report_id)=(f0000000-0000-0000-0000-000000000001) is not present in table "lost_found_reports".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "claim_requests" violates foreign key constraint "claim_requests_report_id_fkey"
+DETAIL:  Key (report_id)=(f0000000-0000-0000-0000-000000000001) is not present in table "lost_found_reports".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "claim_requests" violates foreign key constraint "claim_requests_report_id_fkey"
+DETAIL:  Key (report_id)=(f0000000-0000-0000-0000-000000000001) is not present in table "lost_found_reports".

@@ -1,0 +1,79 @@
+Query ID: W25
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on claim_requests cr  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using idx_claim_requests_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001501'::uuid)
+               Filter: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=222
+ Planning Time: 0.343 ms
+ Execution Time: 0.044 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on claim_requests cr  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using idx_claim_requests_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001501'::uuid)
+               Filter: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=222
+ Planning Time: 0.335 ms
+ Execution Time: 0.043 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on claim_requests cr  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.29..16.34 rows=1 width=102) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using idx_claim_requests_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Index Cond: (claimant_id = 'a0000000-0000-0000-0000-000000001501'::uuid)
+               Filter: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=1
+         ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+               Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=222
+ Planning Time: 0.350 ms
+ Execution Time: 0.043 ms
+(17 rows)
+
+ROLLBACK

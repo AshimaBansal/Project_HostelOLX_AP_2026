@@ -1,0 +1,100 @@
+Query ID: R13
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                                 QUERY PLAN                                                                                 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=25.49..25.49 rows=1 width=858) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=7
+   ->  Sort  (cost=25.49..25.49 rows=1 width=858) (actual time=0.009..0.009 rows=0.00 loops=1)
+         Sort Key: (ts_rank(to_tsvector('english'::regconfig, (((l.title)::text || ' '::text) || l.description)), '''studi'' & ''lamp'''::tsquery)) DESC, l.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=7
+         ->  Nested Loop  (cost=0.43..25.48 rows=1 width=858) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Nested Loop  (cost=0.29..16.80 rows=1 width=644) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.41 rows=1 width=482) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Filter: (to_tsvector('english'::regconfig, (((title)::text || ' '::text) || description)) @@ '''studi'' & ''lamp'''::tsquery)
+                           Index Searches: 1
+                           Buffers: shared hit=1
+                     ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                           Index Cond: (id = l.category_id)
+                           Index Searches: 0
+               ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                     Index Cond: (id = l.seller_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=513
+ Planning Time: 2.644 ms
+ Execution Time: 0.029 ms
+(24 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                                 QUERY PLAN                                                                                 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=25.49..25.49 rows=1 width=858) (actual time=0.013..0.013 rows=0.00 loops=1)
+   Buffers: shared hit=7
+   ->  Sort  (cost=25.49..25.49 rows=1 width=858) (actual time=0.013..0.013 rows=0.00 loops=1)
+         Sort Key: (ts_rank(to_tsvector('english'::regconfig, (((l.title)::text || ' '::text) || l.description)), '''studi'' & ''lamp'''::tsquery)) DESC, l.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=7
+         ->  Nested Loop  (cost=0.43..25.48 rows=1 width=858) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Nested Loop  (cost=0.29..16.80 rows=1 width=644) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.41 rows=1 width=482) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Filter: (to_tsvector('english'::regconfig, (((title)::text || ' '::text) || description)) @@ '''studi'' & ''lamp'''::tsquery)
+                           Index Searches: 1
+                           Buffers: shared hit=1
+                     ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                           Index Cond: (id = l.category_id)
+                           Index Searches: 0
+               ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                     Index Cond: (id = l.seller_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=513
+ Planning Time: 1.258 ms
+ Execution Time: 0.038 ms
+(24 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                                 QUERY PLAN                                                                                 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=25.49..25.49 rows=1 width=858) (actual time=0.010..0.010 rows=0.00 loops=1)
+   Buffers: shared hit=7
+   ->  Sort  (cost=25.49..25.49 rows=1 width=858) (actual time=0.010..0.010 rows=0.00 loops=1)
+         Sort Key: (ts_rank(to_tsvector('english'::regconfig, (((l.title)::text || ' '::text) || l.description)), '''studi'' & ''lamp'''::tsquery)) DESC, l.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=7
+         ->  Nested Loop  (cost=0.43..25.48 rows=1 width=858) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Nested Loop  (cost=0.29..16.80 rows=1 width=644) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.41 rows=1 width=482) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Filter: (to_tsvector('english'::regconfig, (((title)::text || ' '::text) || description)) @@ '''studi'' & ''lamp'''::tsquery)
+                           Index Searches: 1
+                           Buffers: shared hit=1
+                     ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                           Index Cond: (id = l.category_id)
+                           Index Searches: 0
+               ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                     Index Cond: (id = l.seller_id)
+                     Index Searches: 0
+ Planning:
+   Buffers: shared hit=513
+ Planning Time: 1.134 ms
+ Execution Time: 0.032 ms
+(24 rows)
+
+ROLLBACK

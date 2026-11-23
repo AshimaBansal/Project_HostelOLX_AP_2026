@@ -1,0 +1,97 @@
+Query ID: W17
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on users u  (cost=4.31..19.74 rows=0 width=0) (actual time=0.007..0.008 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=4.31..19.74 rows=1 width=90) (actual time=0.007..0.007 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Subquery Scan on r  (cost=4.17..11.31 rows=1 width=120) (actual time=0.007..0.007 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  GroupAggregate  (cost=4.17..11.30 rows=1 width=48) (actual time=0.007..0.007 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Bitmap Heap Scan on peer_reviews  (cost=4.17..11.28 rows=3 width=18) (actual time=0.006..0.006 rows=0.00 loops=1)
+                           Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                           Heap Blocks: exact=1
+                           Buffers: shared hit=2
+                           ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (actual time=0.002..0.002 rows=6.00 loops=1)
+                                 Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = r.reviewee_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=226
+ Planning Time: 0.392 ms
+ Execution Time: 0.071 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on users u  (cost=4.31..19.74 rows=0 width=0) (actual time=0.005..0.006 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=4.31..19.74 rows=1 width=90) (actual time=0.005..0.005 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Subquery Scan on r  (cost=4.17..11.31 rows=1 width=120) (actual time=0.005..0.005 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  GroupAggregate  (cost=4.17..11.30 rows=1 width=48) (actual time=0.005..0.005 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Bitmap Heap Scan on peer_reviews  (cost=4.17..11.28 rows=3 width=18) (actual time=0.004..0.004 rows=0.00 loops=1)
+                           Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                           Heap Blocks: exact=1
+                           Buffers: shared hit=2
+                           ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (actual time=0.002..0.002 rows=6.00 loops=1)
+                                 Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = r.reviewee_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=226
+ Planning Time: 0.327 ms
+ Execution Time: 0.065 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on users u  (cost=4.31..19.74 rows=0 width=0) (actual time=0.005..0.006 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=4.31..19.74 rows=1 width=90) (actual time=0.005..0.005 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Subquery Scan on r  (cost=4.17..11.31 rows=1 width=120) (actual time=0.005..0.005 rows=0.00 loops=1)
+               Buffers: shared hit=2
+               ->  GroupAggregate  (cost=4.17..11.30 rows=1 width=48) (actual time=0.005..0.005 rows=0.00 loops=1)
+                     Buffers: shared hit=2
+                     ->  Bitmap Heap Scan on peer_reviews  (cost=4.17..11.28 rows=3 width=18) (actual time=0.004..0.004 rows=0.00 loops=1)
+                           Recheck Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                           Heap Blocks: exact=1
+                           Buffers: shared hit=2
+                           ->  Bitmap Index Scan on idx_peer_reviews_reviewee  (cost=0.00..4.17 rows=3 width=0) (actual time=0.002..0.002 rows=6.00 loops=1)
+                                 Index Cond: (reviewee_id = 'a0000000-0000-0000-0000-000000000179'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = r.reviewee_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=226
+ Planning Time: 0.330 ms
+ Execution Time: 0.066 ms
+(23 rows)
+
+ROLLBACK

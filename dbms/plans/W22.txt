@@ -1,0 +1,19 @@
+Query ID: W22
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "lost_found_reports" violates foreign key constraint "lost_found_reports_reporter_id_fkey"
+DETAIL:  Key (reporter_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "lost_found_reports" violates foreign key constraint "lost_found_reports_reporter_id_fkey"
+DETAIL:  Key (reporter_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "lost_found_reports" violates foreign key constraint "lost_found_reports_reporter_id_fkey"
+DETAIL:  Key (reporter_id)=(a0000000-0000-0000-0000-000000001518) is not present in table "users".

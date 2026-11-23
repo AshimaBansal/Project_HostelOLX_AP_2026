@@ -1,0 +1,97 @@
+Query ID: R21
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.76..24.77 rows=1 width=1026) (actual time=0.012..0.012 rows=0.00 loops=1)
+   Sort Key: o.offered_amount DESC, o.created_at
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Nested Loop  (cost=0.43..24.75 rows=1 width=1026) (actual time=0.002..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.33 rows=1 width=654) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=670) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users b  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = o.buyer_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=490
+ Planning Time: 0.703 ms
+ Execution Time: 0.042 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.76..24.77 rows=1 width=1026) (actual time=0.010..0.010 rows=0.00 loops=1)
+   Sort Key: o.offered_amount DESC, o.created_at
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Nested Loop  (cost=0.43..24.75 rows=1 width=1026) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.33 rows=1 width=654) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=670) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users b  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = o.buyer_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=490
+ Planning Time: 0.758 ms
+ Execution Time: 0.035 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.76..24.77 rows=1 width=1026) (actual time=0.010..0.010 rows=0.00 loops=1)
+   Sort Key: o.offered_amount DESC, o.created_at
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Nested Loop  (cost=0.43..24.75 rows=1 width=1026) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.33 rows=1 width=654) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=670) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users b  (cost=0.14..8.16 rows=1 width=404) (never executed)
+               Index Cond: (id = o.buyer_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=490
+ Planning Time: 0.648 ms
+ Execution Time: 0.033 ms
+(23 rows)
+
+ROLLBACK

@@ -1,0 +1,46 @@
+Query ID: R5
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Seq Scan on users  (cost=0.00..10.82 rows=3 width=436) (actual time=0.001..0.002 rows=0.00 loops=1)
+   Filter: (id = ANY ('{a0000000-0000-0000-0000-000000000619,a0000000-0000-0000-0000-000000000019,a0000000-0000-0000-0000-000000000995}'::uuid[]))
+ Planning:
+   Buffers: shared hit=184
+ Planning Time: 0.273 ms
+ Execution Time: 0.009 ms
+(6 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Seq Scan on users  (cost=0.00..10.82 rows=3 width=436) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Filter: (id = ANY ('{a0000000-0000-0000-0000-000000000619,a0000000-0000-0000-0000-000000000019,a0000000-0000-0000-0000-000000000995}'::uuid[]))
+ Planning:
+   Buffers: shared hit=184
+ Planning Time: 0.253 ms
+ Execution Time: 0.009 ms
+(6 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Seq Scan on users  (cost=0.00..10.82 rows=3 width=436) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Filter: (id = ANY ('{a0000000-0000-0000-0000-000000000619,a0000000-0000-0000-0000-000000000019,a0000000-0000-0000-0000-000000000995}'::uuid[]))
+ Planning:
+   Buffers: shared hit=184
+ Planning Time: 0.241 ms
+ Execution Time: 0.008 ms
+(6 rows)
+
+ROLLBACK

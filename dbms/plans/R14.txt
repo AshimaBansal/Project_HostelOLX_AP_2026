@@ -1,0 +1,88 @@
+Query ID: R14
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.43..24.97 rows=1 width=772) (actual time=0.003..0.004 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=772) (actual time=0.003..0.003 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=670) (actual time=0.002..0.003 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_listings_active_recent on listings l  (cost=0.14..8.16 rows=1 width=508) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Filter: ((listing_type)::text = 'giveaway'::text)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=134) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=475
+ Planning Time: 0.812 ms
+ Execution Time: 0.023 ms
+(20 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.43..24.97 rows=1 width=772) (actual time=0.002..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=772) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=670) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_listings_active_recent on listings l  (cost=0.14..8.16 rows=1 width=508) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Filter: ((listing_type)::text = 'giveaway'::text)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=134) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=475
+ Planning Time: 0.614 ms
+ Execution Time: 0.020 ms
+(20 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                          QUERY PLAN                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.43..24.97 rows=1 width=772) (actual time=0.003..0.003 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Nested Loop  (cost=0.43..24.97 rows=1 width=772) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.55 rows=1 width=670) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using idx_listings_active_recent on listings l  (cost=0.14..8.16 rows=1 width=508) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Filter: ((listing_type)::text = 'giveaway'::text)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                     Index Cond: (id = l.category_id)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=134) (never executed)
+               Index Cond: (id = l.seller_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=475
+ Planning Time: 0.621 ms
+ Execution Time: 0.019 ms
+(20 rows)
+
+ROLLBACK

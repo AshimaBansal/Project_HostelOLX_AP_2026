@@ -1,0 +1,115 @@
+Query ID: R17
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                            QUERY PLAN                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.55..24.55 rows=1 width=496) (actual time=0.011..0.012 rows=0.00 loops=1)
+   Sort Key: l.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  GroupAggregate  (cost=24.51..24.54 rows=1 width=496) (actual time=0.007..0.007 rows=0.00 loops=1)
+         Group Key: l.id
+         Buffers: shared hit=4
+         ->  Sort  (cost=24.51..24.52 rows=1 width=570) (actual time=0.006..0.007 rows=0.00 loops=1)
+               Sort Key: l.id, s.user_id
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: shared hit=4
+               ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=570) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=496) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=480) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                 Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+                           ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                                 Index Cond: (listing_id = l.id)
+                                 Index Searches: 0
+                     ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (listing_id = l.id)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=338
+ Planning Time: 0.555 ms
+ Execution Time: 0.044 ms
+(29 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                            QUERY PLAN                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.55..24.55 rows=1 width=496) (actual time=0.011..0.012 rows=0.00 loops=1)
+   Sort Key: l.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  GroupAggregate  (cost=24.51..24.54 rows=1 width=496) (actual time=0.007..0.007 rows=0.00 loops=1)
+         Group Key: l.id
+         Buffers: shared hit=4
+         ->  Sort  (cost=24.51..24.52 rows=1 width=570) (actual time=0.007..0.007 rows=0.00 loops=1)
+               Sort Key: l.id, s.user_id
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: shared hit=4
+               ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=570) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=496) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=480) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                 Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+                           ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                                 Index Cond: (listing_id = l.id)
+                                 Index Searches: 0
+                     ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (listing_id = l.id)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=338
+ Planning Time: 0.515 ms
+ Execution Time: 0.045 ms
+(29 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                            QUERY PLAN                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.55..24.55 rows=1 width=496) (actual time=0.011..0.011 rows=0.00 loops=1)
+   Sort Key: l.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  GroupAggregate  (cost=24.51..24.54 rows=1 width=496) (actual time=0.007..0.007 rows=0.00 loops=1)
+         Group Key: l.id
+         Buffers: shared hit=4
+         ->  Sort  (cost=24.51..24.52 rows=1 width=570) (actual time=0.006..0.007 rows=0.00 loops=1)
+               Sort Key: l.id, s.user_id
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: shared hit=4
+               ->  Nested Loop Left Join  (cost=0.43..24.50 rows=1 width=570) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buffers: shared hit=1
+                     ->  Nested Loop Left Join  (cost=0.29..16.33 rows=1 width=496) (actual time=0.001..0.002 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Index Scan using idx_listings_seller on listings l  (cost=0.14..8.16 rows=1 width=480) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                 Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                                 Index Searches: 1
+                                 Buffers: shared hit=1
+                           ->  Index Scan using idx_saved_listings_listing on saved_listings s  (cost=0.14..8.16 rows=1 width=32) (never executed)
+                                 Index Cond: (listing_id = l.id)
+                                 Index Searches: 0
+                     ->  Index Scan using idx_price_offers_listing on price_offers o  (cost=0.14..8.16 rows=1 width=90) (never executed)
+                           Index Cond: (listing_id = l.id)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=338
+ Planning Time: 0.522 ms
+ Execution Time: 0.045 ms
+(29 rows)
+
+ROLLBACK

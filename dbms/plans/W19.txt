@@ -1,0 +1,19 @@
+Query ID: W19
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "chat_messages" violates foreign key constraint "chat_messages_channel_id_fkey"
+DETAIL:  Key (channel_id)=(e0000000-0000-0000-0000-000000005586) is not present in table "chat_channels".
+
+===== RUN 2 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "chat_messages" violates foreign key constraint "chat_messages_channel_id_fkey"
+DETAIL:  Key (channel_id)=(e0000000-0000-0000-0000-000000005586) is not present in table "chat_channels".
+
+===== RUN 3 (FAILED) =====
+BEGIN
+ERROR:  insert or update on table "chat_messages" violates foreign key constraint "chat_messages_channel_id_fkey"
+DETAIL:  Key (channel_id)=(e0000000-0000-0000-0000-000000005586) is not present in table "chat_channels".

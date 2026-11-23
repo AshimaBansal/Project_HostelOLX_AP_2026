@@ -1,0 +1,70 @@
+Query ID: R29
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.29..16.34 rows=1 width=16) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Join Filter: (c.seller_id = l.seller_id)
+   Buffers: shared hit=2
+   ->  Index Scan using uq_channel_listing_buyer_seller on chat_channels c  (cost=0.15..8.17 rows=1 width=48) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: ((listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid) AND (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=389
+ Planning Time: 0.536 ms
+ Execution Time: 0.019 ms
+(14 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.29..16.34 rows=1 width=16) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Join Filter: (c.seller_id = l.seller_id)
+   Buffers: shared hit=2
+   ->  Index Scan using uq_channel_listing_buyer_seller on chat_channels c  (cost=0.15..8.17 rows=1 width=48) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: ((listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid) AND (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=389
+ Planning Time: 0.559 ms
+ Execution Time: 0.021 ms
+(14 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.29..16.34 rows=1 width=16) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Join Filter: (c.seller_id = l.seller_id)
+   Buffers: shared hit=2
+   ->  Index Scan using uq_channel_listing_buyer_seller on chat_channels c  (cost=0.15..8.17 rows=1 width=48) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: ((listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid) AND (buyer_id = 'a0000000-0000-0000-0000-000000001518'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=32) (never executed)
+         Index Cond: (id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+         Index Searches: 0
+ Planning:
+   Buffers: shared hit=389
+ Planning Time: 0.515 ms
+ Execution Time: 0.019 ms
+(14 rows)
+
+ROLLBACK

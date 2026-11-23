@@ -1,0 +1,58 @@
+Query ID: W20
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_channels  (cost=0.15..8.17 rows=0 width=0) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using chat_channels_pkey on chat_channels  (cost=0.15..8.17 rows=1 width=14) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: (id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=113
+ Planning Time: 0.201 ms
+ Execution Time: 0.047 ms
+(10 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_channels  (cost=0.15..8.17 rows=0 width=0) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using chat_channels_pkey on chat_channels  (cost=0.15..8.17 rows=1 width=14) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: (id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=113
+ Planning Time: 0.200 ms
+ Execution Time: 0.047 ms
+(10 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Update on chat_channels  (cost=0.15..8.17 rows=0 width=0) (actual time=0.001..0.001 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Index Scan using chat_channels_pkey on chat_channels  (cost=0.15..8.17 rows=1 width=14) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Index Cond: (id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=113
+ Planning Time: 0.211 ms
+ Execution Time: 0.049 ms
+(10 rows)
+
+ROLLBACK

@@ -1,0 +1,61 @@
+Query ID: W6
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                               QUERY PLAN                                                               
+----------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings  (cost=0.14..8.17 rows=0 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using idx_listings_seller on listings  (cost=0.14..8.17 rows=1 width=64) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+         Filter: (((status)::text <> 'sold'::text) AND (id = 'b0000000-0000-0000-0000-000000007931'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=204
+ Planning Time: 0.337 ms
+ Execution Time: 0.041 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                               QUERY PLAN                                                               
+----------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings  (cost=0.14..8.17 rows=0 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using idx_listings_seller on listings  (cost=0.14..8.17 rows=1 width=64) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+         Filter: (((status)::text <> 'sold'::text) AND (id = 'b0000000-0000-0000-0000-000000007931'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=204
+ Planning Time: 0.334 ms
+ Execution Time: 0.041 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                               QUERY PLAN                                                               
+----------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings  (cost=0.14..8.17 rows=0 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using idx_listings_seller on listings  (cost=0.14..8.17 rows=1 width=64) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+         Filter: (((status)::text <> 'sold'::text) AND (id = 'b0000000-0000-0000-0000-000000007931'::uuid))
+         Index Searches: 1
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=204
+ Planning Time: 0.328 ms
+ Execution Time: 0.041 ms
+(11 rows)
+
+ROLLBACK

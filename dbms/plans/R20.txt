@@ -1,0 +1,64 @@
+Query ID: R20
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=8.16..8.17 rows=1 width=1) (actual time=0.007..0.008 rows=1.00 loops=1)
+   Buffers: shared hit=3
+   InitPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings  (cost=0.14..8.16 rows=1 width=0) (actual time=0.007..0.007 rows=0.00 loops=1)
+           Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 1
+           Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=84
+ Planning Time: 0.197 ms
+ Execution Time: 0.028 ms
+(12 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=8.16..8.17 rows=1 width=1) (actual time=0.003..0.003 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   InitPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings  (cost=0.14..8.16 rows=1 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+           Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 1
+           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=84
+ Planning Time: 0.191 ms
+ Execution Time: 0.021 ms
+(12 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Result  (cost=8.16..8.17 rows=1 width=1) (actual time=0.002..0.003 rows=1.00 loops=1)
+   Buffers: shared hit=1
+   InitPlan 1
+     ->  Index Scan using idx_saved_listings_listing on saved_listings  (cost=0.14..8.16 rows=1 width=0) (actual time=0.002..0.002 rows=0.00 loops=1)
+           Index Cond: (listing_id = 'b0000000-0000-0000-0000-000000000001'::uuid)
+           Filter: (user_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+           Index Searches: 1
+           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=84
+ Planning Time: 0.200 ms
+ Execution Time: 0.023 ms
+(12 rows)
+
+ROLLBACK

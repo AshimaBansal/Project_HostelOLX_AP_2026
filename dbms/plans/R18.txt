@@ -1,0 +1,55 @@
+Query ID: R18
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:25
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_listings_seller on listings  (cost=0.14..8.16 rows=1 width=90) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=203
+ Planning Time: 0.315 ms
+ Execution Time: 0.017 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_listings_seller on listings  (cost=0.14..8.16 rows=1 width=90) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=203
+ Planning Time: 0.304 ms
+ Execution Time: 0.015 ms
+(9 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_listings_seller on listings  (cost=0.14..8.16 rows=1 width=90) (actual time=0.002..0.002 rows=0.00 loops=1)
+   Index Cond: (seller_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+   Filter: (id = 'b0000000-0000-0000-0000-000000004931'::uuid)
+   Index Searches: 1
+   Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=203
+ Planning Time: 0.313 ms
+ Execution Time: 0.017 ms
+(9 rows)
+
+ROLLBACK

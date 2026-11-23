@@ -1,0 +1,100 @@
+Query ID: R6
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.43..20.52 rows=35 width=1018) (actual time=0.021..0.022 rows=4.00 loops=1)
+   Sort Key: c.display_order, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=10
+   ->  HashAggregate  (cost=19.19..19.54 rows=35 width=1018) (actual time=0.014..0.015 rows=4.00 loops=1)
+         Group Key: c.id
+         Batches: 1  Memory Usage: 32kB
+         Buffers: shared hit=4
+         ->  Hash Left Join  (cost=8.17..19.01 rows=35 width=1026) (actual time=0.010..0.011 rows=4.00 loops=1)
+               Hash Cond: (c.id = l.category_id)
+               Buffers: shared hit=4
+               ->  Seq Scan on categories c  (cost=0.00..10.70 rows=35 width=1010) (actual time=0.003..0.003 rows=4.00 loops=1)
+                     Filter: is_active
+                     Buffers: shared hit=1
+               ->  Hash  (cost=8.16..8.16 rows=1 width=32) (actual time=0.003..0.003 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     Buffers: shared hit=3
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.16 rows=1 width=32) (actual time=0.003..0.003 rows=0.00 loops=1)
+                           Index Searches: 1
+                           Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=333
+ Planning Time: 0.524 ms
+ Execution Time: 0.056 ms
+(24 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.43..20.52 rows=35 width=1018) (actual time=0.022..0.023 rows=4.00 loops=1)
+   Sort Key: c.display_order, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=8
+   ->  HashAggregate  (cost=19.19..19.54 rows=35 width=1018) (actual time=0.015..0.016 rows=4.00 loops=1)
+         Group Key: c.id
+         Batches: 1  Memory Usage: 32kB
+         Buffers: shared hit=2
+         ->  Hash Left Join  (cost=8.17..19.01 rows=35 width=1026) (actual time=0.011..0.012 rows=4.00 loops=1)
+               Hash Cond: (c.id = l.category_id)
+               Buffers: shared hit=2
+               ->  Seq Scan on categories c  (cost=0.00..10.70 rows=35 width=1010) (actual time=0.005..0.005 rows=4.00 loops=1)
+                     Filter: is_active
+                     Buffers: shared hit=1
+               ->  Hash  (cost=8.16..8.16 rows=1 width=32) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     Buffers: shared hit=1
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.16 rows=1 width=32) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Index Searches: 1
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=333
+ Planning Time: 0.451 ms
+ Execution Time: 0.055 ms
+(24 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.43..20.52 rows=35 width=1018) (actual time=0.018..0.019 rows=4.00 loops=1)
+   Sort Key: c.display_order, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=8
+   ->  HashAggregate  (cost=19.19..19.54 rows=35 width=1018) (actual time=0.011..0.012 rows=4.00 loops=1)
+         Group Key: c.id
+         Batches: 1  Memory Usage: 32kB
+         Buffers: shared hit=2
+         ->  Hash Left Join  (cost=8.17..19.01 rows=35 width=1026) (actual time=0.008..0.009 rows=4.00 loops=1)
+               Hash Cond: (c.id = l.category_id)
+               Buffers: shared hit=2
+               ->  Seq Scan on categories c  (cost=0.00..10.70 rows=35 width=1010) (actual time=0.002..0.003 rows=4.00 loops=1)
+                     Filter: is_active
+                     Buffers: shared hit=1
+               ->  Hash  (cost=8.16..8.16 rows=1 width=32) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                     Buffers: shared hit=1
+                     ->  Index Scan using idx_listings_category_price on listings l  (cost=0.14..8.16 rows=1 width=32) (actual time=0.001..0.001 rows=0.00 loops=1)
+                           Index Searches: 1
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=333
+ Planning Time: 0.448 ms
+ Execution Time: 0.050 ms
+(24 rows)
+
+ROLLBACK

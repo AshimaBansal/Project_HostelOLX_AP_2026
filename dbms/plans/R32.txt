@@ -1,0 +1,97 @@
+Query ID: R32
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.77..24.77 rows=1 width=580) (actual time=0.007..0.008 rows=0.00 loops=1)
+   Sort Key: cr.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Nested Loop  (cost=0.43..24.76 rows=1 width=580) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.34 rows=1 width=220) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=236) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=392) (never executed)
+               Index Cond: (id = cr.claimant_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=415
+ Planning Time: 0.540 ms
+ Execution Time: 0.030 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.77..24.77 rows=1 width=580) (actual time=0.007..0.007 rows=0.00 loops=1)
+   Sort Key: cr.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Nested Loop  (cost=0.43..24.76 rows=1 width=580) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.34 rows=1 width=220) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=236) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=392) (never executed)
+               Index Cond: (id = cr.claimant_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=415
+ Planning Time: 0.493 ms
+ Execution Time: 0.027 ms
+(23 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                         QUERY PLAN                                                                          
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=24.77..24.77 rows=1 width=580) (actual time=0.007..0.008 rows=0.00 loops=1)
+   Sort Key: cr.created_at DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Nested Loop  (cost=0.43..24.76 rows=1 width=580) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Buffers: shared hit=1
+         ->  Nested Loop  (cost=0.29..16.34 rows=1 width=220) (actual time=0.002..0.002 rows=0.00 loops=1)
+               Buffers: shared hit=1
+               ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=236) (actual time=0.002..0.002 rows=0.00 loops=1)
+                     Index Cond: (report_id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 1
+                     Buffers: shared hit=1
+               ->  Index Scan using idx_lost_found_reporter on lost_found_reports r  (cost=0.14..8.16 rows=1 width=16) (never executed)
+                     Index Cond: (reporter_id = 'a0000000-0000-0000-0000-000000001518'::uuid)
+                     Filter: (id = 'f0000000-0000-0000-0000-000000001501'::uuid)
+                     Index Searches: 0
+         ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=392) (never executed)
+               Index Cond: (id = cr.claimant_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=415
+ Planning Time: 0.509 ms
+ Execution Time: 0.029 ms
+(23 rows)
+
+ROLLBACK

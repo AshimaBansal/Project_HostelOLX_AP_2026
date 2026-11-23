@@ -1,0 +1,136 @@
+Query ID: R30
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:27
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                                                              QUERY PLAN                                                                                                              
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.016..0.016 rows=0.00 loops=1)
+   Buffers: shared hit=10
+   ->  Sort  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.016..0.016 rows=0.00 loops=1)
+         Sort Key: r.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=10
+         ->  GroupAggregate  (cost=33.19..33.28 rows=4 width=1582) (actual time=0.011..0.011 rows=0.00 loops=1)
+               Group Key: r.id, c.name, u.full_name
+               Buffers: shared hit=7
+               ->  Sort  (cost=33.19..33.20 rows=4 width=1590) (actual time=0.010..0.011 rows=0.00 loops=1)
+                     Sort Key: r.id, c.name, u.full_name
+                     Sort Method: quicksort  Memory: 25kB
+                     Buffers: shared hit=7
+                     ->  Nested Loop Left Join  (cost=0.57..33.15 rows=4 width=1590) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Nested Loop Left Join  (cost=0.42..24.97 rows=1 width=1574) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                 Buffers: shared hit=1
+                                 ->  Nested Loop  (cost=0.28..16.59 rows=1 width=1412) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       Buffers: shared hit=1
+                                       ->  Index Scan using idx_lost_found_open_recent on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1170) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                             Filter: (((report_type)::text = 'lost'::text) AND (((item_name)::text ~~* '%bottle%'::text) OR (description ~~* '%bottle%'::text) OR ((last_seen_location)::text ~~* '%bottle%'::text)))
+                                             Index Searches: 1
+                                             Buffers: shared hit=1
+                                       ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                                             Index Cond: (id = r.reporter_id)
+                                             Index Searches: 0
+                                 ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                                       Index Cond: (id = r.category_id)
+                                       Index Searches: 0
+                           ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=32) (never executed)
+                                 Index Cond: (report_id = r.id)
+                                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=395
+ Planning Time: 0.736 ms
+ Execution Time: 0.051 ms
+(36 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                                                              QUERY PLAN                                                                                                              
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.016..0.016 rows=0.00 loops=1)
+   Buffers: shared hit=10
+   ->  Sort  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.016..0.016 rows=0.00 loops=1)
+         Sort Key: r.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=10
+         ->  GroupAggregate  (cost=33.19..33.28 rows=4 width=1582) (actual time=0.011..0.011 rows=0.00 loops=1)
+               Group Key: r.id, c.name, u.full_name
+               Buffers: shared hit=7
+               ->  Sort  (cost=33.19..33.20 rows=4 width=1590) (actual time=0.010..0.010 rows=0.00 loops=1)
+                     Sort Key: r.id, c.name, u.full_name
+                     Sort Method: quicksort  Memory: 25kB
+                     Buffers: shared hit=7
+                     ->  Nested Loop Left Join  (cost=0.57..33.15 rows=4 width=1590) (actual time=0.002..0.002 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Nested Loop Left Join  (cost=0.42..24.97 rows=1 width=1574) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                 Buffers: shared hit=1
+                                 ->  Nested Loop  (cost=0.28..16.59 rows=1 width=1412) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                       Buffers: shared hit=1
+                                       ->  Index Scan using idx_lost_found_open_recent on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1170) (actual time=0.002..0.002 rows=0.00 loops=1)
+                                             Filter: (((report_type)::text = 'lost'::text) AND (((item_name)::text ~~* '%bottle%'::text) OR (description ~~* '%bottle%'::text) OR ((last_seen_location)::text ~~* '%bottle%'::text)))
+                                             Index Searches: 1
+                                             Buffers: shared hit=1
+                                       ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                                             Index Cond: (id = r.reporter_id)
+                                             Index Searches: 0
+                                 ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                                       Index Cond: (id = r.category_id)
+                                       Index Searches: 0
+                           ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=32) (never executed)
+                                 Index Cond: (report_id = r.id)
+                                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=395
+ Planning Time: 0.677 ms
+ Execution Time: 0.051 ms
+(36 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                                                              QUERY PLAN                                                                                                              
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.021..0.021 rows=0.00 loops=1)
+   Buffers: shared hit=10
+   ->  Sort  (cost=33.32..33.33 rows=4 width=1582) (actual time=0.020..0.020 rows=0.00 loops=1)
+         Sort Key: r.created_at DESC
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=10
+         ->  GroupAggregate  (cost=33.19..33.28 rows=4 width=1582) (actual time=0.014..0.014 rows=0.00 loops=1)
+               Group Key: r.id, c.name, u.full_name
+               Buffers: shared hit=7
+               ->  Sort  (cost=33.19..33.20 rows=4 width=1590) (actual time=0.013..0.013 rows=0.00 loops=1)
+                     Sort Key: r.id, c.name, u.full_name
+                     Sort Method: quicksort  Memory: 25kB
+                     Buffers: shared hit=7
+                     ->  Nested Loop Left Join  (cost=0.57..33.15 rows=4 width=1590) (actual time=0.003..0.003 rows=0.00 loops=1)
+                           Buffers: shared hit=1
+                           ->  Nested Loop Left Join  (cost=0.42..24.97 rows=1 width=1574) (actual time=0.003..0.003 rows=0.00 loops=1)
+                                 Buffers: shared hit=1
+                                 ->  Nested Loop  (cost=0.28..16.59 rows=1 width=1412) (actual time=0.003..0.003 rows=0.00 loops=1)
+                                       Buffers: shared hit=1
+                                       ->  Index Scan using idx_lost_found_open_recent on lost_found_reports r  (cost=0.14..8.16 rows=1 width=1170) (actual time=0.002..0.003 rows=0.00 loops=1)
+                                             Filter: (((report_type)::text = 'lost'::text) AND (((item_name)::text ~~* '%bottle%'::text) OR (description ~~* '%bottle%'::text) OR ((last_seen_location)::text ~~* '%bottle%'::text)))
+                                             Index Searches: 1
+                                             Buffers: shared hit=1
+                                       ->  Index Scan using users_pkey on users u  (cost=0.14..8.16 rows=1 width=274) (never executed)
+                                             Index Cond: (id = r.reporter_id)
+                                             Index Searches: 0
+                                 ->  Index Scan using categories_pkey on categories c  (cost=0.14..8.16 rows=1 width=194) (never executed)
+                                       Index Cond: (id = r.category_id)
+                                       Index Searches: 0
+                           ->  Index Scan using uq_report_claimant on claim_requests cr  (cost=0.15..8.17 rows=1 width=32) (never executed)
+                                 Index Cond: (report_id = r.id)
+                                 Index Searches: 0
+ Planning:
+   Buffers: shared hit=395
+ Planning Time: 0.903 ms
+ Execution Time: 0.065 ms
+(36 rows)
+
+ROLLBACK

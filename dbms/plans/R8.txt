@@ -1,0 +1,61 @@
+Query ID: R8
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:24
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=13.10..13.24 rows=55 width=692) (actual time=0.015..0.015 rows=3.00 loops=1)
+   Sort Key: (CASE security_level WHEN 'guard_station'::text THEN 1 WHEN 'cctv_monitored'::text THEN 2 WHEN 'high_footfall'::text THEN 3 ELSE 4 END), spot_name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Seq Scan on handover_spots  (cost=0.00..11.51 rows=55 width=692) (actual time=0.005..0.006 rows=3.00 loops=1)
+         Filter: is_active
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=123
+ Planning Time: 0.205 ms
+ Execution Time: 0.032 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=13.10..13.24 rows=55 width=692) (actual time=0.013..0.014 rows=3.00 loops=1)
+   Sort Key: (CASE security_level WHEN 'guard_station'::text THEN 1 WHEN 'cctv_monitored'::text THEN 2 WHEN 'high_footfall'::text THEN 3 ELSE 4 END), spot_name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Seq Scan on handover_spots  (cost=0.00..11.51 rows=55 width=692) (actual time=0.005..0.005 rows=3.00 loops=1)
+         Filter: is_active
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=123
+ Planning Time: 0.166 ms
+ Execution Time: 0.030 ms
+(11 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                           QUERY PLAN                                                                           
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=13.10..13.24 rows=55 width=692) (actual time=0.017..0.017 rows=3.00 loops=1)
+   Sort Key: (CASE security_level WHEN 'guard_station'::text THEN 1 WHEN 'cctv_monitored'::text THEN 2 WHEN 'high_footfall'::text THEN 3 ELSE 4 END), spot_name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=7
+   ->  Seq Scan on handover_spots  (cost=0.00..11.51 rows=55 width=692) (actual time=0.006..0.007 rows=3.00 loops=1)
+         Filter: is_active
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=123
+ Planning Time: 0.203 ms
+ Execution Time: 0.037 ms
+(11 rows)
+
+ROLLBACK

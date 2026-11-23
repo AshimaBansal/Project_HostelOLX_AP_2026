@@ -1,0 +1,73 @@
+Query ID: W15
+Type: WRITE
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings l  (cost=0.29..16.47 rows=0 width=0) (actual time=0.001..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=0.29..16.47 rows=1 width=70) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Index Scan using handover_transactions_pkey on handover_transactions t  (cost=0.14..8.16 rows=1 width=22) (actual time=0.001..0.001 rows=0.00 loops=1)
+               Index Cond: (id = 'd0000000-0000-0000-0000-000000000330'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = t.listing_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=414
+ Planning Time: 0.542 ms
+ Execution Time: 0.050 ms
+(15 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings l  (cost=0.29..16.47 rows=0 width=0) (actual time=0.001..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=0.29..16.47 rows=1 width=70) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Index Scan using handover_transactions_pkey on handover_transactions t  (cost=0.14..8.16 rows=1 width=22) (actual time=0.001..0.001 rows=0.00 loops=1)
+               Index Cond: (id = 'd0000000-0000-0000-0000-000000000330'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = t.listing_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=414
+ Planning Time: 0.625 ms
+ Execution Time: 0.053 ms
+(15 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on listings l  (cost=0.29..16.47 rows=0 width=0) (actual time=0.001..0.002 rows=0.00 loops=1)
+   Buffers: shared hit=2
+   ->  Nested Loop  (cost=0.29..16.47 rows=1 width=70) (actual time=0.001..0.001 rows=0.00 loops=1)
+         Buffers: shared hit=2
+         ->  Index Scan using handover_transactions_pkey on handover_transactions t  (cost=0.14..8.16 rows=1 width=22) (actual time=0.001..0.001 rows=0.00 loops=1)
+               Index Cond: (id = 'd0000000-0000-0000-0000-000000000330'::uuid)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Index Scan using listings_pkey on listings l  (cost=0.14..8.16 rows=1 width=22) (never executed)
+               Index Cond: (id = t.listing_id)
+               Index Searches: 0
+ Planning:
+   Buffers: shared hit=414
+ Planning Time: 0.547 ms
+ Execution Time: 0.043 ms
+(15 rows)
+
+ROLLBACK

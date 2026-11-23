@@ -1,0 +1,79 @@
+Query ID: R27
+Type: READ
+Database: hostelolx_ap
+Generated: 2026-11-23T20:40:26
+
+===== RUN 1 (SUCCESS) =====
+BEGIN
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.37..20.38 rows=2 width=389) (actual time=0.011..0.011 rows=0.00 loops=1)
+   Sort Key: m.sent_at, m.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=6
+   ->  Hash Join  (cost=9.53..20.36 rows=2 width=389) (actual time=0.002..0.002 rows=0.00 loops=1)
+         Hash Cond: (u.id = m.sender_id)
+         ->  Seq Scan on users u  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+         ->  Hash  (cost=9.50..9.50 rows=2 width=131) (never executed)
+               ->  Bitmap Heap Scan on chat_messages m  (cost=4.16..9.50 rows=2 width=131) (never executed)
+                     Recheck Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                     ->  Bitmap Index Scan on idx_chat_messages_channel  (cost=0.00..4.16 rows=2 width=0) (never executed)
+                           Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=244
+ Planning Time: 0.378 ms
+ Execution Time: 0.032 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 2 (SUCCESS) =====
+BEGIN
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.37..20.38 rows=2 width=389) (actual time=0.009..0.010 rows=0.00 loops=1)
+   Sort Key: m.sent_at, m.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=6
+   ->  Hash Join  (cost=9.53..20.36 rows=2 width=389) (actual time=0.001..0.002 rows=0.00 loops=1)
+         Hash Cond: (u.id = m.sender_id)
+         ->  Seq Scan on users u  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+         ->  Hash  (cost=9.50..9.50 rows=2 width=131) (never executed)
+               ->  Bitmap Heap Scan on chat_messages m  (cost=4.16..9.50 rows=2 width=131) (never executed)
+                     Recheck Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                     ->  Bitmap Index Scan on idx_chat_messages_channel  (cost=0.00..4.16 rows=2 width=0) (never executed)
+                           Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=244
+ Planning Time: 0.361 ms
+ Execution Time: 0.030 ms
+(17 rows)
+
+ROLLBACK
+
+===== RUN 3 (SUCCESS) =====
+BEGIN
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=20.37..20.38 rows=2 width=389) (actual time=0.010..0.011 rows=0.00 loops=1)
+   Sort Key: m.sent_at, m.id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=6
+   ->  Hash Join  (cost=9.53..20.36 rows=2 width=389) (actual time=0.001..0.002 rows=0.00 loops=1)
+         Hash Cond: (u.id = m.sender_id)
+         ->  Seq Scan on users u  (cost=0.00..10.60 rows=60 width=274) (actual time=0.001..0.001 rows=0.00 loops=1)
+         ->  Hash  (cost=9.50..9.50 rows=2 width=131) (never executed)
+               ->  Bitmap Heap Scan on chat_messages m  (cost=4.16..9.50 rows=2 width=131) (never executed)
+                     Recheck Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                     ->  Bitmap Index Scan on idx_chat_messages_channel  (cost=0.00..4.16 rows=2 width=0) (never executed)
+                           Index Cond: (channel_id = 'e0000000-0000-0000-0000-000000005586'::uuid)
+                           Index Searches: 0
+ Planning:
+   Buffers: shared hit=244
+ Planning Time: 0.375 ms
+ Execution Time: 0.032 ms
+(17 rows)
+
+ROLLBACK
